@@ -1,0 +1,22 @@
+{% extends "layout/layout.html" %}
+
+{% block header_script %}
+{% endblock %}
+
+{% block content %}
+    <section class="p-0 bg-light">
+        <div class="p-5">
+            <h1>Hello, Welcome to {{ pageData.pageTitle }}. I am DYS.</h1>
+            <a href="/">
+                <button class="btn btn-primary">去往 index</button>
+            </a>
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer_script %}
+    <script>
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock %}

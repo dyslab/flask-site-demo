@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ pageData.pageTitle }}</title>
+        {# favicon settings #}
+        <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static', filename='imgs/favicon.png') }}" type="image/png">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='imgs/favicon.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        {% block header_scripts %}{% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    <body class="p-0">
+        {% include 'layout/header.html' %}
+        {% block content %}{% endblock %}
+        {% include 'layout/footer.html' %}
+        <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+        {% block footer_scripts %}{% endblock %}
+    </body>
+</html>
