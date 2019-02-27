@@ -1,20 +1,29 @@
 {% extends "layout/layout.html" %}
 
-{% block header_script %}
+{% block header_scripts %}
 {% endblock %}
 {% block content %}
     <section class="p-0 bg-light">
-        <div class="p-5">
-            <h1>Welcome to {{ pageData.pageTitle }}</h1>
-            <a href="/about">
-                <button class="btn btn-primary">Go to about</button>
-            </a>
+        <div class="container p-3 p-lg-5" style="min-height:580px;">
+            <div class="row">
+                {% autoescape false %}
+                    <div class="col-lg-6 fsdemo-markdown">
+                        <div class="h3">Latest Gallery</div>
+                        <div></div>
+                    </div>
+                    <div class="col-lg-6 fsdemo-markdown">
+                        <div class="h3">Latest Blog</div>
+                        <div></div>
+                    </div>
+                {% endautoescape %}
+            </div>
         </div>
     </section>
 {% endblock %}
-{% block footer_script %}
+{% block footer_scripts %}
     <script>
         $(document).ready(function() {
+            $(".top-menuitem.nav-link:eq(0)").addClass('active');
         });
     </script>
 {% endblock %}

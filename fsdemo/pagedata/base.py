@@ -4,7 +4,7 @@ class PageData:
     def __init__(self):
         self.appTitle = 'Flask Site Demo'
         self.pageTitle = self.appTitle
-        startYear = 2011
+        startYear = 2019
         thisYear = date.today().year
         if thisYear == startYear:
             self.copyrightYear = '{:d}'.format(startYear)

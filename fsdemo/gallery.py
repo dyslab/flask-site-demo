@@ -5,4 +5,4 @@ gallery_page = Blueprint('gallery', __name__, static_folder='static', template_f
 
 @gallery_page.route('/')
 def gallery_index():
-    return render_template('gallery.html', pageData=PageData())
+    return render_template('gallery_index.html', pageData=PageData())

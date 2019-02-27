@@ -1,0 +1,17 @@
+/* For Markdown html content */
+.fsdemo-markdown h1, h2, h3, h4, h5 {
+    line-height: 3.25rem;
+}
+.fsdemo-markdown p, td {
+    color: #3d3d3d;
+    line-height: 1.5rem;
+}
+.fsdemo-markdown table, th, td {
+    padding: 0.25rem;
+    border: 1px solid #a1a1a1;
+}
+
+/* For Footer copyright info */
+.fsdemo-copyright {
+    color: gray;
+}

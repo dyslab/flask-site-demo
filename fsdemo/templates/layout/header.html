@@ -1,5 +1,26 @@
 <header>
-    <div class="p-3 bg-dark text-center">
-        <span class="h3 text-warning">{{ pageData.appTitle }}</span>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">{{ pageData.appTitle }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav top-menu">
+                    <li class="nav-item">
+                        <a class="nav-link top-menuitem" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link top-menuitem" href="/gallery">GALLERY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link top-menuitem" href="/blog">BLOG</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link top-menuitem" href="/about">关于本站</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
