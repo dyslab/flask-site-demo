@@ -1,0 +1,23 @@
+{% extends "layout/layout.html" %}
+
+{% block header_script %}
+{% endblock %}
+{% block content %}
+    <section class="p-0 bg-light">
+        <div class="p-5">
+            <h1>Welcome to {{ pageData.pageTitle }}</h1>
+            <span class="col-3">
+                <a href="/"><button class="btn btn-success">Go to index</button></a>
+            </span>
+            <span class="col-3">
+                <a href="/about"><button class="btn btn-info">Go to about</button></a>
+            </span>
+        </div>
+    </section>
+{% endblock %}
+{% block footer_script %}
+    <script>
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock %}

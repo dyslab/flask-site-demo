@@ -1,7 +1,7 @@
 #
 # Flask server start with 'app.py' or 'wsgi.py' by default.
+# This app starts from fsdemo/__init__.py
 #
-# If start coding with __init__.py, enable the next line setting of FLASK_APP.
-# export FLASK_APP=flask-site-demo
+export FLASK_APP=fsdemo
 export FLASK_ENV=development
 flask run
