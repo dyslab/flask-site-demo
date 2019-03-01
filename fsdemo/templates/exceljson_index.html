@@ -1,0 +1,37 @@
+{% extends "layout/layout.html" %}
+
+{% block header_scripts %}
+{% endblock %}
+{% block content %}
+    <section class="p-0 bg-light">
+        <div class="container p-3 p-lg-5">
+            <div class="pb-5">
+                <h3>{{ pageData.pageTitle }}</h3>
+            </div>
+            <div class="d-flex justify-content-between pb-5">
+                <a href="/exceljson?file=example.csv"><button class="btn btn-primary">Read data from CSV</button></a>
+                <a href="/exceljson?file=example.xlsx"><button class="btn btn-success">Read data from XLSX</button></a>
+                <a href="/exceljson?file=example.json"><button class="btn btn-info">Read data from JSON</button></a>
+            </div>
+            <div class="pb-5">
+                <h5 class="text-secondary font-italic">
+                    The following data read from 
+                    <span class="text-info text-capitalize">{{ pageData.inputFile }}</span>.
+                </h5>
+                <div>
+                    {{ pageData.contentData }}
+                </div>
+            </div>
+            <div class="d-flex justify-content-between pb-5">
+                <input type="submit" class="btn btn-warning" value="Output File">
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block footer_scripts %}
+    <script>
+        $(document).ready(function() {
+            $(".top-menuitem.nav-link:eq(3)").addClass('active');
+        });
+    </script>
+{% endblock %}
