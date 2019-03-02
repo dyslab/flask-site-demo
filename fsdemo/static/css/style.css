@@ -15,3 +15,8 @@
 .fsdemo-copyright {
     color: gray;
 }
+
+/* For ExcelJson pages input text */
+.fsdemo-nobg {
+    background: none;
+}

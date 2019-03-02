@@ -13,18 +13,41 @@
                 <a href="/exceljson?file=example.xlsx"><button class="btn btn-success">Read data from XLSX</button></a>
                 <a href="/exceljson?file=example.json"><button class="btn btn-info">Read data from JSON</button></a>
             </div>
-            <div class="pb-5">
-                <h5 class="text-secondary font-italic">
-                    The following data read from 
-                    <span class="text-info text-capitalize">{{ pageData.inputFile }}</span>.
-                </h5>
-                <div>
-                    {{ pageData.contentData }}
+            <form action="/exceljson/output" method="POST">
+                <div class="col-lg-8 pb-3">
+                    <h5 class="text-secondary font-italic">
+                        The following data read from 
+                        <span class="text-info text-capitalize">{{ pageData.inputFile }}</span>.
+                    </h5>
+                    <div>
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+                            {% for item in pageData.contentDataList %}
+                                    <tr>
+                                        <td><input type="text" class="form-control border-0 fsdemo-nobg" placeholder="input text" name="COL1" value="{{ item['COL1'] }}"></td>
+                                        <td><input type="text" class="form-control border-0 fsdemo-nobg" placeholder="input text" name="COL2" value="{{ item['COL2'] }}"></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-between pb-5">
-                <input type="submit" class="btn btn-warning" value="Output File">
-            </div>
+                <div class="form-group">
+                    <div class="col-lg-7">
+                        <label for="outputFormat">File Format: </label>
+                    </div>
+                    <div class="col-lg-7 input-group">
+                        <select class="custom-select" name="outputFormat" id="outputFormat">
+                            <option value="csv">CSV File</option>
+                            <option value="xlsx">XSLX File</option>
+                            <option value="json">JSON File</option>
+                        </select>
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-warning" value="Output">
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </section>
 {% endblock %}
