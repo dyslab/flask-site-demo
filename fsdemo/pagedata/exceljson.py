@@ -1,7 +1,7 @@
 from fsdemo.pagedata.base import PageData
 from flask import make_response
-from werkzeug.datastructures import Headers
-import os, csv
+from io import StringIO
+import os, csv, json
 
 # The field list class for test.
 class TestFields:
@@ -29,19 +29,22 @@ class ExcelJsonPageData(PageData, TestFields):
         else:
             pass
 
-    def readCSV2List(self, csvfile):
+    def readCSV2List(self, csvfilename):
         returnList = []
-        with open(os.path.join(self.__BASE_PATH__, csvfile), newline='') as csvfile:
+        with open(os.path.join(self.__BASE_PATH__, csvfilename), newline='') as csvfile:
             reader = csv.DictReader(csvfile, fieldnames=TestFields().__FIELD_LIST__)
             for row in reader:
                 returnList.append(row)
         return returnList
 
-    def readXSLX2List(self, xslxfile):
+    def readXSLX2List(self, xslxfilename):
         return [{'COL1': 'reading XSLX COL1...', 'COL2': 'reading XSLX COL2...'}]
 
-    def readJSON2List(self, jsonfile):
-        return [{'COL1': 'reading JSON COL1...', 'COL2': 'reading JSON COL2...'}]
+    def readJSON2List(self, jsonfilename):
+        returnList = []
+        with open(os.path.join(self.__BASE_PATH__, jsonfilename), newline='') as jsonfile:
+            returnList = json.load(jsonfile)
+        return returnList
 
 # Output formatted file
 class ExcelJsonOutput(TestFields):
@@ -83,19 +86,44 @@ class ExcelJsonOutput(TestFields):
     def outputCSV(self, filename, rowlist):
         # Generate CSV file content.
         contentBody = ''
+        '''
+        # Method 1: Manually construct string content.
         for row in rowlist:
             for colitem in row:
-                contentBody += '{0},'.format(colitem)
+                contentBody += '"{0}",'.format(colitem.replace('"','""'))
             contentBody += '\n'
+        '''
+        # Method 2: Use module csv with its method csv.writer(f).writerow().
+        tempstream = StringIO()
+        for row in rowlist:
+            csv.writer(tempstream).writerow(row)
+        contentBody = tempstream.getvalue()
+
         # Get a response object and set its attributes before return a response object.
         resp = make_response()
         resp.content_type = 'text/csv'
         resp.headers['Content-disposition'] = 'attachment;filename={0}'.format(filename)
-        resp.response = contentBody
+        resp.data = contentBody
         return resp
 
     def outputXLSX(self, filename, rowlist):
         return filename
 
     def outputJSON(self, filename, rowlist):
-        return filename
+        # Convert rowlist to dictlist.
+        dictlist = []
+        for row in rowlist:
+            indexno = 1
+            ditem = {}
+            for col in row:
+                ditem['COL' + str(indexno)] = col
+                indexno += 1
+            dictlist.append(ditem)
+        contentBody = json.JSONEncoder(ensure_ascii=False, indent=4).encode(dictlist)
+
+        # Get a response object and set its attributes before return a response object.
+        resp = make_response()
+        resp.content_type = 'application/json'
+        resp.headers['Content-disposition'] = 'attachment;filename={0}'.format(filename)
+        resp.data = contentBody
+        return resp
