@@ -1,12 +1,15 @@
 from fsdemo.pagedata.base import PageData
 from flask import make_response
-from io import StringIO
+from io import StringIO, BytesIO
+from pyexcel_xlsx import get_data, save_data
+from collections import OrderedDict
 import os, csv, json
 
 # The field list class for test.
 class TestFields:
-    # The field list for test.
+    # The field list & worksheet's name for test.
     __FIELD_LIST__ = ['COL1', 'COL2']
+    __WORKSHEET_NAME__ = 'TEST'
 
 # Generate page data
 class ExcelJsonPageData(PageData, TestFields):
@@ -38,12 +41,28 @@ class ExcelJsonPageData(PageData, TestFields):
         return returnList
 
     def readXSLX2List(self, xslxfilename):
-        return [{'COL1': 'reading XSLX COL1...', 'COL2': 'reading XSLX COL2...'}]
+        # We read XLSX file by module 'pyexcel_xlsx' in this app.
+        # There're still another choices such as openpyxl, pandas...
+        xlsx_data = get_data(os.path.join(self.__BASE_PATH__, xslxfilename))
+        json_list = json.loads(json.dumps(xlsx_data, ensure_ascii=False))
+        test_fields = TestFields().__FIELD_LIST__
+        returnList = []
+        # Convert to dict list for test.
+        for json_item in json_list[TestFields().__WORKSHEET_NAME__]:
+            temp_row = {}
+            for field_index_no in range(0, len(test_fields)):
+                if field_index_no < len(json_item):
+                    temp_row.update({test_fields[field_index_no]: json_item[field_index_no]})
+                else:
+                    temp_row.update({test_fields[field_index_no]: 'N/A'})
+            returnList.append(temp_row)
+        return returnList
 
     def readJSON2List(self, jsonfilename):
         returnList = []
         with open(os.path.join(self.__BASE_PATH__, jsonfilename), newline='') as jsonfile:
             returnList = json.load(jsonfile)
+        # print(returnList) # console open for test
         return returnList
 
 # Output formatted file
@@ -107,7 +126,17 @@ class ExcelJsonOutput(TestFields):
         return resp
 
     def outputXLSX(self, filename, rowlist):
-        return filename
+        content_data = OrderedDict()
+        content_data.update({ TestFields().__WORKSHEET_NAME__: rowlist })
+        data_io = BytesIO()
+        save_data(data_io, content_data)
+
+        # Get a response object and set its attributes before return a response object.
+        resp = make_response()
+        resp.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        resp.headers['Content-disposition'] = 'attachment;filename={0}'.format(filename)
+        resp.data = data_io.getvalue()
+        return resp
 
     def outputJSON(self, filename, rowlist):
         # Convert rowlist to dictlist.

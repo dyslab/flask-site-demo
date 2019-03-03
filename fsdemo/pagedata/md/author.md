@@ -8,4 +8,4 @@
 
 **Build date: Feb 27, 2019**
 
-**Github: [https://github.com/dyslab/flask-site-demo](https://github.com/dyslab/flask-site-demo "Project respository")**
+**Github: [https://github.com/dyslab/flask-site-demo](https://github.com/dyslab/flask-site-demo "Project repository")**

@@ -24,22 +24,28 @@ Deactivate virtual environment command lines:
 
 **Installed packages list:**
 
-| Package | Version |
-|-----------|-----------|
+| Package Name | Version |
+|---|---|
 | astroid | 2.1.0 |
 | Click | 7.0 |
+| et-xmlfile | 1.0.1 |
 | Flask | 1.0.2 |
 | isort | 4.3.4 |
-| itsdangerous| 1.1.0 |
+| itsdangerous | 1.1.0 |
+| jdcal | 1.4 |
 | Jinja2 | 2.10 |
 | lazy-object-proxy | 1.3.1 |
+| lml | 0.0.9 |
 | Markdown | 3.0.1 |
 | MarkupSafe | 1.1.0 |
-| mccabe   | 0.6.1 |
+| mccabe | 0.6.1 |
+| openpyxl | 2.6.0 |
 | pip | 9.0.1 |
 | pkg-resources | 0.0.0 |
+| pyexcel-io | 0.5.14 |
+| pyexcel-xlsx | 0.5.7 |
 | pylint | 2.2.2 |
-| tuptools | 39.0.1 |
+| setuptools | 40.8.0 |
 | six | 1.12.0 |
 | typed-ast | 1.3.1 |
 | Werkzeug | 0.14.1 |
