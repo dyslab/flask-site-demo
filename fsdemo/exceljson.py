@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for
 from fsdemo.pagedata.exceljson import ExcelJsonPageData, ExcelJsonOutput
 
 exceljson_page = Blueprint('exceljson', __name__, static_folder='static', template_folder='templates')
@@ -18,4 +18,4 @@ def exceljson_output():
     if request.method == 'POST':
         return ExcelJsonOutput().autoOutputFile(request)
     else:
-        return redirect('/exceljson')
+        return redirect(url_for('.exceljson_index', file='example.csv'))

@@ -5,13 +5,35 @@
 {% block content %}
     <section class="p-0 bg-light">
         <div class="container p-3 p-lg-5" style="min-height:580px;">
-            <h1>Welcome to {{ pageData.pageTitle }}</h1>
-            <span class="col-3">
-                <a href="/"><button class="btn btn-success">Go to index</button></a>
-            </span>
-            <span class="col-3">
-                <a href="/about"><button class="btn btn-info">Go to about</button></a>
-            </span>
+            <div class="mb-4">
+                <h3>{{ pageData.pageTitle }}</h3>
+            </div>
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <form id="uploadform" method="POST" enctype="multipart/form-data" action="">
+                        <div class="custom-file mb-3">
+                            <input type="file" class="custom-file-input" name="photo" id="photo">
+                            <label class="custom-file-label" for="photo" data-browse="Choose Image File">JPG/GIF/SVG/PNG accepted.</label>
+                        </div>
+                        <div id="tags" class="mb-3">
+                            <span class="custom-tag badge badge-info">
+                                <span class="h6">Tag name &times;</span>
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="font-italic" for="caption">Image description</label>
+                            <textarea class="form-control" id="caption" rows="5"></textarea>
+                        </div>
+                    </form> 
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}

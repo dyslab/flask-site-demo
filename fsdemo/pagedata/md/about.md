@@ -1,4 +1,4 @@
-### App name: Flask Site Demo &copy;
+### **Flask Site Demo &copy;**
 
 A learning demostration site for Python Flask framework.
 

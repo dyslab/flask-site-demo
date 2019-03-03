@@ -6,6 +6,6 @@
 
 **Email: [120843991@qq.com](mailto:120843991@qq.com "Mail me...")**
 
-**Build date: Feb 27, 2019**
+**Project start date: Feb 27, 2019**
 
 **Github: [https://github.com/dyslab/flask-site-demo](https://github.com/dyslab/flask-site-demo "Project repository")**
