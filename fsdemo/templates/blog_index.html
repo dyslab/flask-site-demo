@@ -8,6 +8,24 @@
             <div class="mb-4">
                 <h3>{{ pageData.pageTitle }}</h3>
             </div>
+            <div class="row">
+                <!-- List group -->
+                <div class="col-lg-3 mb-3">
+                    <div class="list-group" id="myList" role="tablist">
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Blog Home</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#write" role="tab">Write Article</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#tags" role="tab">Tags Management</a>
+                    </div>
+                </div>
+                <!-- Tab panes -->
+                <div class="col-lg-9">
+                    <div class="tab-content">
+                        <div class="tab-pane card active p-3" id="home" role="tabpanel">home...</div>
+                        <div class="tab-pane card p-3" id="write" role="tabpanel">profile...</div>
+                        <div class="tab-pane card p-3" id="tags" role="tabpanel">messages...</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}
