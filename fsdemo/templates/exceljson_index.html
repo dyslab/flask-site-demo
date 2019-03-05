@@ -52,9 +52,5 @@
     </section>
 {% endblock %}
 {% block footer_scripts %}
-    <script>
-        $(document).ready(function() {
-            $(".top-menuitem.nav-link:eq(3)").addClass('active');
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/exceljson_index.js') }}"></script>
 {% endblock %}

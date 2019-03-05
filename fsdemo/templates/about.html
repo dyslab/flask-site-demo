@@ -26,9 +26,5 @@
 {% endblock %}
 
 {% block footer_scripts %}
-    <script>
-        $(document).ready(function() {
-            $(".top-menuitem.nav-link:eq(-1)").addClass('active');
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/about.js') }}"></script>
 {% endblock %}

@@ -22,33 +22,40 @@
                             <input type="file" class="custom-file-input" name="photo" id="photo">
                             <label class="custom-file-label" for="photo" data-browse="Choose Image File">JPG/GIF/SVG/PNG accepted.</label>
                         </div>
-                        <div id="tags" class="mb-4">
+                        <div class="mb-4">
                             <div class="mb-4">
-                                <span class="font-italic">Tags: </span>
-                                <span class="custom-tag badge badge-info">
-                                    <span class="h6">Tag1 &times;</span>
-                                </span>
-                                <span class="custom-tag badge badge-info">
-                                    <span class="h6">Tag2 &times;</span>
-                                </span>
-                                <span class="custom-tag badge badge-info">
-                                    <span class="h6">Tag3 &times;</span>
-                                </span>
+                                <ul class="list-inline custom-tag-container">
+                                    <li class="list-inline-item">
+                                        <span class="font-italic">Tags: </span>
+                                    </li>
+                                    <li class="list-inline-item custom-tag">
+                                        <span class="badge badge-primary">
+                                            <span class="h6">Tag1 &times;</span>
+                                        </span>
+                                        <input type="hidden" name="tags" id="tags" value="Tag1">
+                                    </li>
+                                    <li class="list-inline-item custom-tag">
+                                        <span class="badge badge-primary">
+                                            <span class="h6">Tag2 &times;</span>
+                                        </span>
+                                        <input type="hidden" name="tags" id="tags" value="Tag2">
+                                    </li>
+                                </ul>
                             </div>
                             <div class="form-row">
                                 <div class="col-6">
-                                    <select class="custom-select">
-                                        <option selected>Select Tag</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                    <select id="taglist" class="custom-select">
+                                        <option value="" selected>Select Tag</option>
+                                        <option value="Tag C1">Tag C1</option>
+                                        <option value="Tag C2">Tag C2</option>
+                                        <option value="Tag C3">Tag C3</option>
                                     </select>
                                 </div>
                                 <div class="col-2">
-                                   <button id="addtag" type="button" class="btn btn-primary">+</button>
+                                   <button id="addtag" type="button" class="btn btn-info">+</button>
                                 </div>
                                 <div class="col-4">
-                                    <button id="tagsman" type="button" class="btn btn-primary" data-toggle="modal" data-target="#tagsMangementModal">Manage Tags</button>
+                                    <button id="tagsman" type="button" class="btn btn-info" data-toggle="modal" data-target="#tagsMangementModal">Manage Tags</button>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +71,29 @@
             </div>
         </div>
     </section>
+
+<!-- Modal dialog -->
+<div class="modal fade" id="tagsMangementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 {% block footer_scripts %}
-    <script>
-        $(document).ready(function() {
-            $(".top-menuitem.nav-link:eq(1)").addClass('active');
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/gallery_upload.js') }}"></script>
 {% endblock %}

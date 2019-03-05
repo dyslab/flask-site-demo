@@ -20,3 +20,12 @@
 .fsdemo-nobg {
     background: none;
 }
+
+/* For Gallery pages */
+.custom-tag-container {
+    line-height: 2rem;
+}
+
+.custom-tag {
+    cursor: pointer;
+}
