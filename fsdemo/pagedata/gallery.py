@@ -9,6 +9,6 @@ class GalleryUploadPageData(PageData):
         '''
         PageData.__init__(self)
         self.pageTitle = self.pageTitle + ' / Gallery Upload Page'
-        self.tagList = json.loads(json.dumps(['Tag #1', 'Tag #2', 'Tag #3', 'Tag #4']))
-        self.picTags = json.loads(json.dumps(['Tag #2', 'Tag #3']))
-        self.picDesc = '' # 'This is the picture description.'
+        self.allTagList = json.loads(json.dumps(['Tag #1', 'Tag #2', 'Tag #3', 'Tag #4']))
+        self.objectTags = json.loads(json.dumps(['Tag #2', 'Tag #3']))
+        self.objectDesc = '' # 'This is the picture description.'

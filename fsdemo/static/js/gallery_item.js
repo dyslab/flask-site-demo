@@ -56,17 +56,21 @@ $(document).ready(function() {
     // Manage Tags: Add tag
     $("#mt-addtag").click(function() {
         $("#mt-addtag-text").val(String.trim($("#mt-addtag-text").val()));
-        if(!isTagExists("div.custom-mt-tag-name", "text", $("#mt-addtag-text").val())) {
-            inserthtml = "<div class=\"form-row custom-mt-tag-row mt-1 mb-1\">" +
-                "<div class=\"col-11 custom-mt-tag-name\">" + $("#mt-addtag-text").val() + "</div>" +
-                "<div class=\"col-1\" title=\"Remove Tag\">" +
-                "<button type=\"button\" class=\"btn btn-sm btn-danger custom-mt-tag-remove\"><strong>&minus;</strong></button>" +
-                "</div></div>";
-            $(inserthtml).appendTo(".custom-mt-tag-container");
+        if($("#mt-addtag-text").val() !== "") {
+            if(!isTagExists("div.custom-mt-tag-name", "text", $("#mt-addtag-text").val())) {
+                inserthtml = "<div class=\"form-row custom-mt-tag-row mt-1 mb-1\">" +
+                    "<div class=\"col-11 custom-mt-tag-name\">" + $("#mt-addtag-text").val() + "</div>" +
+                    "<div class=\"col-1\" title=\"Remove Tag\">" +
+                    "<button type=\"button\" class=\"btn btn-sm btn-danger custom-mt-tag-remove\"><strong>&minus;</strong></button>" +
+                    "</div></div>";
+                $(inserthtml).appendTo(".custom-mt-tag-container");
+            } else {
+                $("div.custom-mt-tag-name").filter(function(index) {
+                    return $(this).text() === $("#mt-addtag-text").val();
+                }).fadeOut().fadeIn();
+            }
         } else {
-            $("div.custom-mt-tag-name").filter(function(index) {
-                return $(this).text() === $("#mt-addtag-text").val();
-            }).fadeOut().fadeIn();
+            alert("Tag name cannot be empty.");
         }
     });
 

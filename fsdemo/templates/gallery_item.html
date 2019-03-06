@@ -30,12 +30,12 @@
                                     <li class="list-inline-item">
                                         <span class="font-italic">Tags: </span>
                                     </li>
-                                    {% for pictag in pageData.picTags %}
+                                    {% for objecttag in pageData.objectTags %}
                                         <li class="list-inline-item custom-tag">
                                             <span class="badge badge-primary">
-                                                <span class="h6">{{ pictag }} &times;</span>
+                                                <span class="h6">{{ objecttag }} &times;</span>
                                             </span>
-                                            <input type="hidden" name="tags" id="tags" value="{{ pictag }}">
+                                            <input type="hidden" name="tags" id="tags" value="{{ objecttag }}">
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -44,7 +44,7 @@
                                 <div class="col-6">
                                     <select id="taglist" class="custom-select">
                                         <option value="" selected>Select Tag</option>
-                                        {% for tagitem in pageData.tagList %}
+                                        {% for tagitem in pageData.allTagList %}
                                             <option value="{{ tagitem }}">{{ tagitem }}</option>
                                         {% endfor %}
                                     </select>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="font-italic" for="caption">Image description</label>
-                            <textarea class="form-control" id="caption" rows="5" placeholder="Description about the picture">{{ pageData.picDesc }}</textarea>
+                            <textarea class="form-control" id="caption" rows="5" placeholder="Description about the picture">{{ pageData.objectDesc }}</textarea>
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-warning">Upload and Submit</button>
@@ -85,7 +85,7 @@
                     <div class="col"><strong>Tag List:</strong></div>
                 </div>
                 <div class="custom-mt-tag-container">
-                    {% for tagitem in pageData.tagList %}
+                    {% for tagitem in pageData.allTagList %}
                         <div class="form-row custom-mt-tag-row mt-1 mb-1">
                             <div class="col-11 custom-mt-tag-name">{{ tagitem }}</div>
                             <div class="col-1" title="Remove Tag">
