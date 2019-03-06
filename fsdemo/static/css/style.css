@@ -26,6 +26,12 @@
     line-height: 2rem;
 }
 
-.custom-tag {
+.custom-tag,
+.custom-tag-add,
+.custom-mt-tag-remove {
     cursor: pointer;
+}
+
+.custom-mt-tag-row:hover .custom-mt-tag-name {
+    background-color: darksalmon;
 }

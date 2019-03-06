@@ -18,41 +18,39 @@
                 </div>
                 <div class="col-lg-6 mb-4">
                     <form id="uploadform" method="POST" enctype="multipart/form-data" action="">
-                        <div class="custom-file mb-4">
-                            <input type="file" class="custom-file-input" name="photo" id="photo">
-                            <label class="custom-file-label" for="photo" data-browse="Choose Image File">JPG/GIF/SVG/PNG accepted.</label>
-                        </div>
+                        {% if action == 'UPLOAD' %}
+                            <div class="custom-file mb-4">
+                                <input type="file" class="custom-file-input" name="photo" id="photo">
+                                <label class="custom-file-label" for="photo" data-browse="Choose Image File">JPG/GIF/SVG/PNG accepted.</label>
+                            </div>
+                        {% endif %}
                         <div class="mb-4">
                             <div class="mb-4">
                                 <ul class="list-inline custom-tag-container">
                                     <li class="list-inline-item">
                                         <span class="font-italic">Tags: </span>
                                     </li>
-                                    <li class="list-inline-item custom-tag">
-                                        <span class="badge badge-primary">
-                                            <span class="h6">Tag1 &times;</span>
-                                        </span>
-                                        <input type="hidden" name="tags" id="tags" value="Tag1">
-                                    </li>
-                                    <li class="list-inline-item custom-tag">
-                                        <span class="badge badge-primary">
-                                            <span class="h6">Tag2 &times;</span>
-                                        </span>
-                                        <input type="hidden" name="tags" id="tags" value="Tag2">
-                                    </li>
+                                    {% for pictag in pageData.picTags %}
+                                        <li class="list-inline-item custom-tag">
+                                            <span class="badge badge-primary">
+                                                <span class="h6">{{ pictag }} &times;</span>
+                                            </span>
+                                            <input type="hidden" name="tags" id="tags" value="{{ pictag }}">
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <div class="form-row">
                                 <div class="col-6">
                                     <select id="taglist" class="custom-select">
                                         <option value="" selected>Select Tag</option>
-                                        <option value="Tag C1">Tag C1</option>
-                                        <option value="Tag C2">Tag C2</option>
-                                        <option value="Tag C3">Tag C3</option>
+                                        {% for tagitem in pageData.tagList %}
+                                            <option value="{{ tagitem }}">{{ tagitem }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="col-2">
-                                   <button id="addtag" type="button" class="btn btn-info">+</button>
+                                   <button id="addtag" type="button" class="btn btn-info custom-tag-add"><strong>&plus;</strong></button>
                                 </div>
                                 <div class="col-4">
                                     <button id="tagsman" type="button" class="btn btn-info" data-toggle="modal" data-target="#tagsMangementModal">Manage Tags</button>
@@ -61,7 +59,7 @@
                         </div>
                         <div class="mb-4">
                             <label class="font-italic" for="caption">Image description</label>
-                            <textarea class="form-control" id="caption" rows="5"></textarea>
+                            <textarea class="form-control" id="caption" rows="5" placeholder="Description about the picture">{{ pageData.picDesc }}</textarea>
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-warning">Upload and Submit</button>
@@ -77,17 +75,37 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">Manage Tags</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <div class="form-row mb-1">
+                    <div class="col"><strong>Tag List:</strong></div>
+                </div>
+                <div class="custom-mt-tag-container">
+                    {% for tagitem in pageData.tagList %}
+                        <div class="form-row custom-mt-tag-row mt-1 mb-1">
+                            <div class="col-11 custom-mt-tag-name">{{ tagitem }}</div>
+                            <div class="col-1" title="Remove Tag">
+                                <button type="button" class="btn btn-sm btn-danger custom-mt-tag-remove"><strong>&minus;</strong></button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="form-row">
+                    <div class="col-11">
+                        <input type="text" id="mt-addtag-text" class="form-control" placeholder="Input Tag Name" value="">
+                    </div>
+                    <div class="col-1">
+                        <button id="mt-addtag" type="button" class="btn btn-sm btn-info custom-tag-add"><strong>&plus;</strong></button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary mt-save">Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -95,5 +113,5 @@
 
 {% endblock %}
 {% block footer_scripts %}
-    <script src="{{ url_for('static', filename='js/gallery_upload.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/gallery_item.js') }}"></script>
 {% endblock %}

@@ -5,4 +5,4 @@ gallery_page = Blueprint('gallery', __name__, static_folder='static', template_f
 
 @gallery_page.route('/upload', methods=['GET', 'POST'])
 def gallery_upload():
-    return render_template('gallery_upload.html', pageData=GalleryUploadPageData())
+    return render_template('gallery_item.html', action='UPLOAD', pageData=GalleryUploadPageData())
