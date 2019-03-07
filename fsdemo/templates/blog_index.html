@@ -1,28 +1,93 @@
 {% extends "layout/layout.html" %}
 
 {% block header_scripts %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cdn/simplemde.min.css') }}">
 {% endblock %}
 {% block content %}
     <section class="p-0 bg-light">
-        <div class="container p-3 p-lg-5" style="min-height:580px;">
+        <span class="sr-only activepanel">{{ pageData.activePanelID }}</span>
+        <div class="container p-3 p-lg-5" style="min-height:600px;">
             <div class="mb-4">
                 <h3>{{ pageData.pageTitle }}</h3>
             </div>
             <div class="row">
                 <!-- List group -->
                 <div class="col-lg-2 mb-3">
-                    <div class="list-group" id="myList" role="tablist">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Blog</a>
+                    <div class="list-group" id="menuList" role="tablist">
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#home" role="tab">Blog</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#write" role="tab">Write</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#search" role="tab">Search</a>
                     </div>
                 </div>
-                <!-- Tab panes -->
+                <!-- Tab panels -->
                 <div class="col-lg-10">
-                    <div class="tab-content">
-                        <div class="tab-pane card active p-3" id="home" role="tabpanel">home...</div>
-                        <div class="tab-pane card p-3" id="write" role="tabpanel">profile...</div>
-                        <div class="tab-pane card p-3" id="search" role="tabpanel">messages...</div>
+                    <div id="panelList" class="tab-content">
+                        <div class="tab-pane card p-3 p-lg-5" id="home" role="tabpanel">
+                            {% for blog in pageData.blogList %}
+                                <div class="custom-blog-title mb-4">
+                                    <span class="h3">{{ blog['title'] }}</span>
+                                    <small><a href="#">Edit</a></small>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-5 col-sm-3 col-md-2 custom-blog-time">{{ blog['time'] }}</div>
+                                    <div class="col-7 col-sm-9 col-md-10 custom-blog-tags">
+                                        <ul class="list-inline">
+                                            {% for objecttag in blog['tags'] %}
+                                                <li class="list-inline-item">
+                                                    <span class="badge badge-pill badge-secondary">{{ objecttag }}</span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="custom-blog-content">{{ blog['content'] }}</div>
+                                <div class="text-right">
+                                    <small><a href="#">Delete</a></small>
+                                </div>
+                                {% if not loop.last %}
+                                    <hr class="mt-3 mb-3 mt-lg-5 mb-lg-5">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="tab-pane card p-3 p-lg-5" id="write" role="tabpanel">
+                            <div class="form-group row mb-4">
+                                <label for="blogtitle" class="col-lg-2 col-form-label col-form-label-lg text-lg-right font-italic">Title: </label>
+                                <div class="col-lg-9">
+                                    <input type="text" id="blogtitle" class="form-control form-control-lg" placeholder="Blog Title" required>
+                                </div>
+                            </div>
+                            {% include 'widget_tags.html' %}
+                            <div class="mb-3">
+                                <textarea id="blogcontent"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-warning">Save Blog</button>
+                            </div>
+                        </div>
+                        <div class="tab-pane card p-3 p-lg-5" id="search" role="tabpanel">
+                            <div class="mb-3">
+                                <ul class="list-inline">
+                                    {% for tag in pageData.allTagList %}
+                                        <li class="list-inline-item">
+                                            <span class="badge badge-pill badge-warning custom-blog-search-tag">{{ tag }} &times;</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-lg-10 p-0 mb-3">
+                                <input type="text" id="searchterms" class="form-control" placeholder="Search Terms">
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-2 mb-3">
+                                    <button class="btn btn-info">Reset</button>
+                                </div>
+                                <div class="col-lg-8 text-lg-right">
+                                    <button type="submit" class="btn btn-success">Search Blog</button>
+                                </div>
+                            </div>
+                            <div class="mb-3 font-italic">Search Result: XXXX articles found.</div>
+                            <hr>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -30,5 +95,7 @@
     </section>
 {% endblock %}
 {% block footer_scripts %}
+    <script src="{{ url_for('static', filename='js/cdn/simplemde.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/widget_tags.js') }}"></script>
     <script src="{{ url_for('static', filename='js/blog_index.js') }}"></script>
 {% endblock %}

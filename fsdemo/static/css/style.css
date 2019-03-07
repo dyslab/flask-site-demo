@@ -35,3 +35,11 @@
 .custom-mt-tag-row:hover .custom-mt-tag-name {
     background-color: darksalmon;
 }
+
+/* For Blog pages */
+.custom-blog-search-tag {
+    cursor: pointer;
+}
+.custom-blog-search-tag:hover {
+    color: darkred;
+}
