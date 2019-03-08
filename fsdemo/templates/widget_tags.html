@@ -1,72 +1,74 @@
 <!-------------- Tags Code Begin ----------------->
 <!--
     Input parameter:
-        pageData.objectTags: The tag list of specific object.
-        pageData.allTagList: All available tags list.
+        objectTags: The tag list of specific object.
+        allTagList: All available tags list.
 -->
-<div class="mb-4">
+{% macro render_tags_part(objectTags, allTagList) -%}
     <div class="mb-4">
-        <ul class="list-inline custom-tag-container">
-            <li class="list-inline-item">
-                <span class="font-italic">Tags: </span>
-            </li>
-            {% for objecttag in pageData.objectTags %}
-                <li class="list-inline-item custom-tag">
-                    <span class="badge badge-primary">
-                        <span class="h6">{{ objecttag }} &times;</span>
-                    </span>
-                    <input type="hidden" name="tags" id="tags" value="{{ objecttag }}">
+        <div class="mb-4">
+            <ul class="list-inline custom-tag-container">
+                <li class="list-inline-item">
+                    <span class="font-italic">Tags: </span>
                 </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="form-row">
-        <div class="col-6">
-            <select id="taglist" class="custom-select">
-                <option value="" selected>Select Tag</option>
-                {% for tagitem in pageData.allTagList %}
-                    <option value="{{ tagitem }}">{{ tagitem }}</option>
+                {% for objecttag in objectTags %}
+                    <li class="list-inline-item custom-tag">
+                        <span class="badge badge-primary">
+                            <span class="h6">{{ objecttag }} &times;</span>
+                        </span>
+                        <input type="hidden" name="tags" id="tags" value="{{ objecttag }}">
+                    </li>
                 {% endfor %}
-            </select>
+            </ul>
         </div>
-        <div class="col-2">
-            <button id="addtag" type="button" class="btn btn-info custom-tag-add"><strong>&plus;</strong></button>
-        </div>
-        <div class="col-4">
-            <button id="mt-tags" type="button" class="btn btn-info">Manage Tags</button>
-        </div>
-    </div>
-</div>
-<!-- Tags managerment modal dialog -->
-<div class="modal fade" id="tagsMangementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Manage Tags</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="form-row">
+            <div class="col-6">
+                <select id="taglist" class="custom-select">
+                    <option value="" selected>Select Tag</option>
+                    {% for tagitem in allTagList %}
+                        <option class="custom-option-tag" value="{{ tagitem }}">{{ tagitem }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="modal-body">
-                <div class="form-row mb-1">
-                    <div class="col"><strong>Tag List:</strong></div>
-                </div>
-                <div class="custom-mt-tag-container">
-                </div>
-                <div class="form-row">
-                    <div class="col-11">
-                        <input type="text" id="mt-addtag-text" class="form-control" placeholder="Tag Name" value="">
-                    </div>
-                    <div class="col-1">
-                        <button id="mt-addtag" type="button" title="Add New Tag" class="btn btn-sm btn-info custom-tag-add"><strong>&plus;</strong></button>
-                    </div>
-                </div>
+            <div class="col-2">
+                <button id="addtag" type="button" class="btn btn-info custom-tag-add"><strong>&plus;</strong></button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary mt-save">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="col-4">
+                <button id="mt-tags" type="button" class="btn btn-info">Manage Tags</button>
             </div>
         </div>
     </div>
-</div>
+    <!-- Tags managerment modal dialog -->
+    <div class="modal fade" id="tagsMangementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Tags</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row mb-1">
+                        <div class="col"><strong>Tag List:</strong></div>
+                    </div>
+                    <div class="custom-mt-tag-container">
+                    </div>
+                    <div class="form-row">
+                        <div class="col-11">
+                            <input type="text" id="mt-addtag-text" class="form-control" placeholder="Tag Name" value="">
+                        </div>
+                        <div class="col-1">
+                            <button id="mt-addtag" type="button" title="Add New Tag" class="btn btn-sm btn-info custom-tag-add"><strong>&plus;</strong></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary mt-save">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
 <!-------------- Tags Code End ------------------->

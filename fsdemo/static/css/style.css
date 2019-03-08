@@ -40,6 +40,6 @@
 .custom-blog-search-tag {
     cursor: pointer;
 }
-.custom-blog-search-tag:hover {
+.custom-blog-search-tag:hover span {
     color: darkred;
 }

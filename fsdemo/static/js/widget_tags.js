@@ -49,13 +49,13 @@ $(document).ready(function() {
     // Manage Tags: Initialize tag list
     $("#mt-tags").click(function() {
         $(".custom-mt-tag-container").children().remove();
-        $("#taglist").children().each(function() {
+        $("#taglist").children(".custom-option-tag").each(function() {
             if ($(this).val() !== "") {
                 $(".custom-mt-tag-container").append($("<div class=\"form-row custom-mt-tag-row mt-1 mb-1\">" +
-                "<div class=\"col-11 custom-mt-tag-name\">" +
-                $(this).val() + "</div><div class=\"col-1\" title=\"Remove Tag\">" +
-                "<button type=\"button\" class=\"btn btn-sm btn-danger custom-mt-tag-remove\"><strong>&minus;</strong></button>" +
-                "</div>")); 
+                    "<div class=\"col-11 custom-mt-tag-name\">" +
+                    $(this).val() + "</div><div class=\"col-1\" title=\"Remove Tag\">" +
+                    "<button type=\"button\" class=\"btn btn-sm btn-danger custom-mt-tag-remove\"><strong>&minus;</strong></button>" +
+                    "</div>")); 
             }
         });
         $("#tagsMangementModal").modal('show');
@@ -93,11 +93,11 @@ $(document).ready(function() {
         // ...
 
         // Synchronize changes for '#taglist'
-        $("#taglist").children().remove();
-        $("#taglist").append($("<option value=\"\" selected>Select Tag</option>"));
+        $("#taglist").children(".custom-option-tag").remove();
+        // $("#taglist").append($("<option value=\"\" selected>Select Tag</option>"));
         $("div.custom-mt-tag-name").each(function() {
-            $("#taglist").append($("<option value=\"" + $(this).text() + "\">" +
-                $(this).text() + "</option>")); 
+            $("#taglist").append($("<option class=\"custom-option-tag\" value=\"" + 
+                $(this).text() + "\">" + $(this).text() + "</option>")); 
         });
         $("#tagsMangementModal").modal('toggle');
     });
