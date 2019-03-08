@@ -13,25 +13,31 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card">
                         <div class="card-body">
-                           <img class="img-fluid" src="{{ url_for('static', filename='imgs/whatisit.svg') }}">
+                           <img id="viewphoto" class="img-fluid" src="{{ url_for('static', filename='imgs/whatisit.svg') }}">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-4">
-                    <form id="uploadform" method="POST" enctype="multipart/form-data" action="">
-                        {% if action == 'UPLOAD' %}
+                    <form id="uploadform" method="POST" enctype="multipart/form-data" class="needs-validation">
+                        {% if action|upper == 'UPLOAD' %}
                             <div class="custom-file mb-4">
-                                <input type="file" class="custom-file-input" name="photo" id="photo">
-                                <label class="custom-file-label" for="photo" data-browse="Choose Image File">JPG/GIF/SVG/PNG accepted.</label>
+                                <input type="file" class="custom-file-input" name="photo" id="photo" required>
+                                <label class="custom-file-label" for="photo" data-browse="Choose Image File">JPG/GIF/SVG/PNG accepted</label>
                             </div>
                         {% endif %}
                         {{ widget_tags.render_tags_part(pageData.objectTags, pageData.allTagList) }}
                         <div class="mb-4">
                             <label class="font-italic" for="caption">Image description</label>
-                            <textarea class="form-control" id="caption" rows="5" placeholder="Description about the picture">{{ pageData.objectDesc }}</textarea>
+                            <textarea class="form-control" name="caption" id="caption" rows="5" placeholder="Photo Description">{{ pageData.objectDesc }}</textarea>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-warning">Upload and Submit</button>
+                            <button type="submit" class="btn btn-warning">
+                            {% if action|upper == 'UPLOAD' %}
+                                Upload and Submit
+                            {% else %}    
+                                Save Changes
+                            {% endif %}
+                            </button>
                         </div>
                     </form> 
                 </div>
@@ -40,6 +46,7 @@
     </section>
 {% endblock %}
 {% block footer_scripts %}
+    <script src="{{ url_for('static', filename='js/cdn/bs-custom-file-input.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/widget_tags.js') }}"></script>
     <script src="{{ url_for('static', filename='js/gallery_item.js') }}"></script>
 {% endblock %}

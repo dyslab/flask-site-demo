@@ -1,3 +1,3 @@
 $(document).ready(function() {
-    $(".top-menuitem.nav-link:eq(0)").addClass('active');
+    $(".top-menuitem.nav-link:eq(0)").addClass("active");
 });
