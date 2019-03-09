@@ -3,13 +3,17 @@ from flask import make_response
 from io import StringIO, BytesIO
 from pyexcel_xlsx import get_data, save_data
 from collections import OrderedDict
-import os, csv, json
+import os
+import csv
+import json
+
 
 # The field list class for test.
 class TestFields(object):
     # The field list & worksheet's name for test.
     __FIELD_LIST__ = ['COL1', 'COL2']
     __WORKSHEET_NAME__ = 'TEST'
+
 
 # Generate page data
 class ExcelJsonPageData(PageData, TestFields):
@@ -34,8 +38,14 @@ class ExcelJsonPageData(PageData, TestFields):
 
     def readCSV2List(self, csvfilename):
         returnList = []
-        with open(os.path.join(self.__BASE_PATH__, csvfilename), newline='') as csvfile:
-            reader = csv.DictReader(csvfile, fieldnames=TestFields().__FIELD_LIST__)
+        with open(
+            os.path.join(self.__BASE_PATH__, csvfilename),
+            newline=''
+        ) as csvfile:
+            reader = csv.DictReader(
+                csvfile,
+                fieldnames=TestFields().__FIELD_LIST__
+            )
             for row in reader:
                 returnList.append(row)
         return returnList
@@ -50,20 +60,24 @@ class ExcelJsonPageData(PageData, TestFields):
         # Convert to dict list for test.
         for json_item in json_list[TestFields().__WORKSHEET_NAME__]:
             temp_row = {}
-            for field_index_no in range(0, len(test_fields)):
-                if field_index_no < len(json_item):
-                    temp_row.update({test_fields[field_index_no]: json_item[field_index_no]})
+            for fno in range(0, len(test_fields)):
+                if fno < len(json_item):
+                    temp_row.update({test_fields[fno]: json_item[fno]})
                 else:
-                    temp_row.update({test_fields[field_index_no]: 'N/A'})
+                    temp_row.update({test_fields[fno]: 'N/A'})
             returnList.append(temp_row)
         return returnList
 
     def readJSON2List(self, jsonfilename):
         returnList = []
-        with open(os.path.join(self.__BASE_PATH__, jsonfilename), newline='') as jsonfile:
+        with open(
+            os.path.join(self.__BASE_PATH__, jsonfilename),
+            newline=''
+        ) as jsonfile:
             returnList = json.load(jsonfile)
         # print(returnList) # console open for test
         return returnList
+
 
 # Output formatted file
 class ExcelJsonOutput(TestFields):
@@ -87,7 +101,10 @@ class ExcelJsonOutput(TestFields):
         except KeyError:
             output_format = 'csv'
             pass
-        output_filename = 'output_test_{0}.{1}'.format(datetime.datetime.utcnow().isoformat().replace('.', '_'), output_format)
+        output_filename = 'output_test_{0}.{1}'.format(
+            datetime.datetime.utcnow().isoformat().replace('.', '_'),
+            output_format
+        )
 
         if output_filename.find('.csv') >= 0:
             # Output CSV file
@@ -118,23 +135,28 @@ class ExcelJsonOutput(TestFields):
             csv.writer(tempstream).writerow(row)
         contentBody = tempstream.getvalue()
 
-        # Get a response object and set its attributes before return a response object.
+        # Get a response object and set its attributes
+        # before return a response object.
         resp = make_response()
         resp.content_type = 'text/csv'
-        resp.headers['Content-disposition'] = 'attachment;filename={0}'.format(filename)
+        resp.headers['Content-disposition'] = \
+            'attachment;filename={0}'.format(filename)
         resp.data = contentBody
         return resp
 
     def outputXLSX(self, filename, rowlist):
         content_data = OrderedDict()
-        content_data.update({ TestFields().__WORKSHEET_NAME__: rowlist })
+        content_data.update({TestFields().__WORKSHEET_NAME__: rowlist})
         data_io = BytesIO()
         save_data(data_io, content_data)
 
-        # Get a response object and set its attributes before return a response object.
+        # Get a response object and set its attributes
+        # before return a response object.
         resp = make_response()
-        resp.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        resp.headers['Content-disposition'] = 'attachment;filename={0}'.format(filename)
+        resp.content_type = \
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        resp.headers['Content-disposition'] = \
+            'attachment;filename={0}'.format(filename)
         resp.data = data_io.getvalue()
         return resp
 
@@ -148,11 +170,16 @@ class ExcelJsonOutput(TestFields):
                 ditem['COL' + str(indexno)] = col
                 indexno += 1
             dictlist.append(ditem)
-        contentBody = json.JSONEncoder(ensure_ascii=False, indent=4).encode(dictlist)
+        contentBody = json.JSONEncoder(
+            ensure_ascii=False,
+            indent=4
+        ).encode(dictlist)
 
-        # Get a response object and set its attributes before return a response object.
+        # Get a response object and set its attributes
+        # before return a response object.
         resp = make_response()
         resp.content_type = 'application/json'
-        resp.headers['Content-disposition'] = 'attachment;filename={0}'.format(filename)
+        resp.headers['Content-disposition'] = \
+            'attachment;filename={0}'.format(filename)
         resp.data = contentBody
         return resp

@@ -10,11 +10,12 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
+
 # Initialize database and tables follow the step below in command line mode.
 # --------------------------------------------------------------------------
 #   $ python3
 #   >>> from fsdemo.db import init_db
-#   >>> init_db() 
+#   >>> init_db()
 # --------------------------------------------------------------------------
 def init_db():
     # import all modules here that might define models so that
@@ -22,4 +23,5 @@ def init_db():
     # you will have to import them first before calling init_db()
     # eg. import yourapplication.models
     import fsdemo.models
+    fsdemo.models
     Base.metadata.create_all(bind=engine)

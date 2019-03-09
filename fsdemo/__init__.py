@@ -1,5 +1,7 @@
-from flask import Flask, request
 import os
+from flask import Flask
+from fsdemo.db import db_session
+
 
 def create_app():
     app = Flask(__name__)
@@ -19,11 +21,15 @@ def create_app():
 
     return app
 
-from fsdemo.db import db_session
 
 def InitApp(app):
     try:
-        os.makedirs(os.path.join(os.getcwd(), app.config['UPLOADS_DEFAULT_DEST']))
+        os.makedirs(
+            os.path.join(
+                os.getcwd(),
+                app.config['UPLOADS_DEFAULT_DEST']
+            )
+        )
     except OSError:
         pass
     print(' * Folder [%s] created.' % app.config['UPLOADS_DEFAULT_DEST'])
@@ -34,10 +40,9 @@ def InitApp(app):
         pass
     print(' * Folder [%s] created.' % app.config['DATABASE_DEST'])
     print(' * Database [%s] is ready.' % app.config['DATABASE_URI'])
-    
     app.teardown_appcontext(shutdown_session)
-    
     print(' * App initialization done.')
+
 
 def shutdown_session(exception=None):
     db_session.remove()

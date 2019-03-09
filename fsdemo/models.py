@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime
 from fsdemo.db import Base
 from datetime import datetime
 
+
 class BTags(Base):
     __tablename__ = 'btags'
     id = Column(Integer, primary_key=True)
@@ -11,6 +12,7 @@ class BTags(Base):
 
     def __init__(self, name=None):
         self.name = name
+
 
 class Blog(Base):
     __tablename__ = 'blog'
@@ -26,6 +28,7 @@ class Blog(Base):
         self.tags = tags
         self.content = content
 
+
 class GTags(Base):
     __tablename__ = 'gtags'
     id = Column(Integer, primary_key=True)
@@ -35,6 +38,7 @@ class GTags(Base):
 
     def __init__(self, name=None):
         self.name = name
+
 
 class Gallery(Base):
     __tablename__ = 'gallery'

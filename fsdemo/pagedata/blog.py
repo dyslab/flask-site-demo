@@ -1,5 +1,5 @@
-import json
 from fsdemo.pagedata.base import PageData
+
 
 # Generate page data
 class BlogPageData(PageData):
@@ -19,9 +19,24 @@ class BlogPageData(PageData):
         # For blog list tab panel.
         self.pageTitle = self.pageTitle + ' / Blog Page'
         self.blogList = [
-            { 'title':'Blog title #1', 'time':'2019-3-3', 'tags':['Personal', 'View'], 'content':'Blog content Tag #3 Tag #2' }, 
-            { 'title':'Blog title #2', 'time':'2019-3-2', 'tags':['Dairy', 'Content', 'Test'], 'content':'Blog content #3' }, 
-            { 'title':'Blog title #3', 'time':'2019-3-1', 'tags':['Content', 'Test'], 'content':'Blog content #5' }
+            {
+                'title': 'Blog title #1',
+                'time': '2019-3-3',
+                'tags': ['Personal', 'View'],
+                'content': 'Blog content Tag #3 Tag #2'
+            },
+            {
+                'title': 'Blog title #2',
+                'time': '2019-3-2',
+                'tags': ['Dairy', 'Content', 'Test'],
+                'content': 'Blog content #3'
+            },
+            {
+                'title': 'Blog title #3',
+                'time': '2019-3-1',
+                'tags': ['Content', 'Test'],
+                'content': 'Blog content #5'
+            }
         ]
         # For blog write/edit tab panel.
         self.objectTitle = 'Blog title'

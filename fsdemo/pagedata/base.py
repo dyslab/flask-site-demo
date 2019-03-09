@@ -1,5 +1,6 @@
 from datetime import date
 
+
 class PageData:
     def __init__(self):
         self.appTitle = 'Flask Site Demo'
