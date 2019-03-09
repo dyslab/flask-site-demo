@@ -6,7 +6,7 @@ from collections import OrderedDict
 import os, csv, json
 
 # The field list class for test.
-class TestFields:
+class TestFields(object):
     # The field list & worksheet's name for test.
     __FIELD_LIST__ = ['COL1', 'COL2']
     __WORKSHEET_NAME__ = 'TEST'

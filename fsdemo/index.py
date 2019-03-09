@@ -12,4 +12,4 @@ def index(pageTitle = None):
 def about(pageTitle = None):
     from fsdemo.pagedata.about import AboutPageData
     aboutData = AboutPageData()
-    return render_template('about.html', pageData = aboutData)    
+    return render_template('about.html', pageData = aboutData) 
