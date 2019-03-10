@@ -42,7 +42,7 @@ class GTagsMiddleware(object):
             for tag in tags:
                 gtagitem = GTags.query.filter_by(name=tag).first()
                 if gtagitem is not None:
-                    print(gtagitem.name)
+                    # print(gtagitem.name)  # print for TEST
                     gtagitem.updatetime = datetime.now()
                     db_session.commit()
         except Exception:
