@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from fsdemo.response import JsonResponse
-from fsdemo.pagedata.blog import BlogPageData, BTagsMiddleware
+from fsdemo.pagedata.blog import BlogPageData, BTagsMiddleware, BlogMiddleware
 
 blog_page = Blueprint(
     'blog',
@@ -29,4 +29,27 @@ def blog_save_tags():
         res.resCode = -1
         res.resMsg = e.args.__name__
         pass
+    return res.outputJsonString()
+
+
+@blog_page.route('/new', methods=['POST'])
+def blog_new():
+    res = JsonResponse()
+    try:
+        bitem = BlogMiddleware(
+            title=request.form['blogtitle'],
+            tags=request.form.getlist('tags'),
+            content=request.form['blogcontent']
+        )
+        if bitem.save_to_db():
+            res.resMsg = 'Note: New blog saved successfully.'
+        else:
+            res.resMsg = 'Note: Failed to save the blog.'
+        # res.data = bitem.outputDict()
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Upload failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString()) # Print for test.
     return res.outputJsonString()

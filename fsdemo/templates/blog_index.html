@@ -30,19 +30,22 @@
 {%- endmacro %}
 
 {% macro render_writepanel(objectTags, tagsList, manageTagsLink) -%}
-    <div class="form-group row mb-4">
-        <label for="blogtitle" class="col-lg-2 col-form-label col-form-label-lg text-lg-right font-italic">Title: </label>
-        <div class="col-lg-9">
-            <input type="text" id="blogtitle" class="form-control form-control-lg" placeholder="Blog Title" required>
+    <form id="writeform" method="POST">
+        <div class="form-group row mb-4">
+            <label for="blogtitle" class="col-lg-2 col-form-label col-form-label-lg text-lg-right font-italic">Title: </label>
+            <div class="col-lg-9">
+                <input type="text" id="blogtitle" name="blogtitle" class="form-control form-control-lg" placeholder="Blog Title" required>
+            </div>
         </div>
-    </div>
-    {{ widget_tags.render_tags_part(objectTags, tagsList, manageTagsLink) }}
-    <div class="mb-3">
-        <textarea id="blogcontent"></textarea>
-    </div>
-    <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-warning">Save Blog</button>
-    </div>
+        {{ widget_tags.render_tags_part(objectTags, tagsList, manageTagsLink) }}
+        <div class="mb-3">
+            <textarea id="blogcontent" name="blogcontent"></textarea>
+        </div>
+        <div id="writetabresponse" class="mb-4"></div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning">Save Blog</button>
+        </div>
+    </form>
 {%- endmacro %}
 
 {% macro render_searchpanel() -%}

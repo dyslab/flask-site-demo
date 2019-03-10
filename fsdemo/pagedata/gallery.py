@@ -5,6 +5,7 @@ from fsdemo.models import GTags, Gallery
 from fsdemo.db import db_session
 
 
+# Database Access Middleware: For model 'GTags'.
 class GTagsMiddleware(object):
     def load_all_from_db(self):
         db_tags = GTags.query.order_by(GTags.updatetime.desc()).all()
@@ -34,7 +35,7 @@ class GTagsMiddleware(object):
     # Update the field 'updatetime' of all database records to the current
     # timestamp according to the list item of 'tags'.
     def update_tags(self, tags):
-        print(tags)  # print for TEST
+        # print(tags)  # print for TEST
         rflag = True
         try:
             # Remove all old tags.
@@ -51,6 +52,7 @@ class GTagsMiddleware(object):
         return rflag
 
 
+# Database Access Middleware: For model 'Gallery'.
 class GalleryMiddleware(object):
     def __init__(self, link='', tags=None, caption=''):
         self.link = link

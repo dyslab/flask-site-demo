@@ -1,9 +1,11 @@
 from datetime import datetime
 from fsdemo.pagedata.base import PageData
-from fsdemo.models import BTags
+from fsdemo.models import BTags, Blog
 from fsdemo.db import db_session
+import json
 
 
+# Database Access Middleware: For model 'BTags'.
 class BTagsMiddleware(object):
     def load_all_from_db(self):
         db_tags = BTags.query.order_by(BTags.updatetime.desc()).all()
@@ -33,7 +35,7 @@ class BTagsMiddleware(object):
     # Update the field 'updatetime' of all database records to the current
     # timestamp according to the list item of 'tags'.
     def update_tags(self, tags):
-        print(tags)  # print for TEST
+        # print(tags)  # print for TEST
         rflag = True
         try:
             # Remove all old tags.
@@ -50,6 +52,41 @@ class BTagsMiddleware(object):
         return rflag
 
 
+# Database Access Middleware: For model 'Blog'.
+class BlogMiddleware(object):
+    def __init__(self, title='', tags=None, content=''):
+        self.title = title
+        self.tags = tags
+        self.content = content
+
+    def save_to_db(self):
+        rflag = True
+        try:
+            tags_str = json.dumps(self.tags, ensure_ascii=False)
+            newitem = Blog(
+                title=self.title,
+                tags=tags_str,
+                content=self.content
+            )
+            db_session.add(newitem)
+            db_session.commit()
+
+            # Update tags time.
+            BTagsMiddleware().update_tags(self.tags)
+        except Exception:
+            db_session.rollback()
+            rflag = False
+            pass
+        return rflag
+
+    def outputDict(self):
+        return {
+            'title': self.title,
+            'tags': self.tags,
+            'content': self.content
+        }
+
+
 # Generate page data
 class BlogPageData(PageData):
     def __init__(self):
@@ -64,6 +101,7 @@ class BlogPageData(PageData):
                     2: Search panel
         '''
         PageData.__init__(self)
+        # Set active panel.
         self.activePanelID = 0
         # For blog list tab panel.
         self.pageTitle = self.pageTitle + ' / Blog Page'

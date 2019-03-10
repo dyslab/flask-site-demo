@@ -66,6 +66,9 @@ def gallery_do_upload():
                 '{0}'.format(current_app.config['MAX_CONTENT_LENGTH_MB']) + \
                 'MB].'
             pass
+    else:
+        res.resCode = -1
+        res.resMsg = 'Error: Cannot find the file field in your upload form.'
     # print(res.outputJsonString()) # Print for test.
     return res.outputJsonString()
 
