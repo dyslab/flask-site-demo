@@ -4,7 +4,7 @@
         objectTags: The tag list of specific object.
         allTagList: All available tags list.
 -->
-{% macro render_tags_part(objectTags, allTagList) -%}
+{% macro render_tags_part(objectTags, tagsList, manageTagsLink) -%}
     <div class="mb-4">
         <div class="mb-4">
             <ul class="list-inline custom-tag-container">
@@ -25,7 +25,7 @@
             <div class="col-6">
                 <select id="taglist" class="custom-select">
                     <option value="" selected>Select Tag</option>
-                    {% for tagitem in allTagList %}
+                    {% for tagitem in tagsList %}
                         <option class="custom-option-tag" value="{{ tagitem }}">{{ tagitem }}</option>
                     {% endfor %}
                 </select>
@@ -37,9 +37,11 @@
                 <button id="mt-tags" type="button" class="btn btn-info">Manage Tags</button>
             </div>
         </div>
+        <div id="tagsresponse" class="mb-4"></div>
     </div>
     <!-- Tags managerment modal dialog -->
     <div class="modal fade" id="tagsMangementModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <span id="manageTagsLink" class="sr-only">{{ manageTagsLink }}</span>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -48,7 +50,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div id="tagsMangementModalBody" class="modal-body">
                     <div class="form-row mb-1">
                         <div class="col"><strong>Tag List:</strong></div>
                     </div>

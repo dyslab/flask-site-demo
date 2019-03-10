@@ -18,7 +18,7 @@
                                 <label class="custom-file-label" for="photo" data-browse="Choose Image File"></label>
                             </div>
                         {% endif %}
-                        {{ widget_tags.render_tags_part(pageData.objectTags, pageData.allTagList) }}
+                        {{ widget_tags.render_tags_part(pageData.objectTags, pageData.tagsList, pageData.manageTagsLink) }}
                         <div class="mb-4">
                             <label class="font-italic" for="caption">Image description (HTML Supported)</label>
                             <textarea class="form-control" name="caption" id="caption" rows="5" placeholder="Photo Description">{{ pageData.objectDesc }}</textarea>

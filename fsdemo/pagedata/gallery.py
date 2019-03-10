@@ -1,28 +1,85 @@
 import json
+from datetime import datetime
 from fsdemo.pagedata.base import PageData
-from fsdemo.models import Gallery
+from fsdemo.models import GTags, Gallery
 from fsdemo.db import db_session
 
 
+class GTagsMiddleware(object):
+    def load_all_from_db(self):
+        db_tags = GTags.query.order_by(GTags.updatetime.desc()).all()
+        tags = [record.name for record in db_tags]
+        return tags
+
+    def save_all_to_db(self, tags):
+        # print(tags) # print for TEST
+        rflag = True
+        try:
+            # Remove all old tags.
+            old_tags = GTags.query.all()
+            for olditem in old_tags:
+                db_session.delete(olditem)
+            db_session.commit()
+            # Insert all new tags.
+            new_tags = [GTags(tag) for tag in tags]
+            db_session.add_all(new_tags)
+            # Commit.
+            db_session.commit()
+        except Exception:
+            db_session.rollback()
+            rflag = False
+            pass
+        return rflag
+
+    # Update the field 'updatetime' of all database records to the current
+    # timestamp according to the list item of 'tags'.
+    def update_tags(self, tags):
+        print(tags)  # print for TEST
+        rflag = True
+        try:
+            # Remove all old tags.
+            for tag in tags:
+                gtagitem = GTags.query.filter_by(name=tag).first()
+                if gtagitem is not None:
+                    print(gtagitem.name)
+                    gtagitem.updatetime = datetime.now()
+                    db_session.commit()
+        except Exception:
+            db_session.rollback()
+            rflag = False
+            pass
+        return rflag
+
+
 class GalleryMiddleware(object):
-    def __init__(self, itemlink='', tags=None, caption=''):
-        self.itemlink = itemlink
+    def __init__(self, link='', tags=None, caption=''):
+        self.link = link
         self.tags = tags
         self.caption = caption
 
-    def save_to_SQLite3(self):
-        tags_str = json.dumps(self.tags, ensure_ascii=False)
-        new = Gallery(link=self.itemlink, tags=tags_str, caption=self.caption)
-        db_session.add(new)
-        db_session.commit()
-        return False
+    def save_to_db(self):
+        rflag = True
+        try:
+            tags_str = json.dumps(self.tags, ensure_ascii=False)
+            newitem = Gallery(
+                link=self.link,
+                tags=tags_str,
+                caption=self.caption
+            )
+            db_session.add(newitem)
+            db_session.commit()
 
-    def load_from_SQLite3(self, itemlink):
-        return False
+            # Update tags time.
+            GTagsMiddleware().update_tags(self.tags)
+        except Exception:
+            db_session.rollback()
+            rflag = False
+            pass
+        return rflag
 
     def outputDict(self):
         return {
-            'itemlink': self.itemlink,
+            'link': self.link,
             'tags': self.tags,
             'caption': self.caption
         }
@@ -36,6 +93,10 @@ class GalleryUploadPageData(PageData):
         '''
         PageData.__init__(self)
         self.pageTitle = self.pageTitle + ' / Gallery Upload Page'
-        self.allTagList = json.loads(json.dumps(['Tag#1', 'Tag#2', 'Tag#3']))
-        self.objectTags = json.loads(json.dumps(['Tag #2', 'Tag #3']))
-        self.objectDesc = ''  # 'This is the picture description.'
+        # eg. self.allTagList = ['Tag name #1', 'Tag name #2', 'Tag name #2']
+        self.tagsList = GTagsMiddleware().load_all_from_db()
+        # eg. self.objectTags = ['Tag name #1', 'Tag name #2']
+        self.manageTagsLink = '/gallery/save/tags'
+        self.objectTags = []
+        # eg. self.objectDesc = 'This is the picture description.'
+        self.objectDesc = ''

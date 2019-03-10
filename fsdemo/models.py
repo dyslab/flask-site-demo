@@ -7,8 +7,8 @@ class BTags(Base):
     __tablename__ = 'btags'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True)
-    addtime = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updatetime = Column(DateTime, nullable=False, default=datetime.utcnow)
+    addtime = Column(DateTime, nullable=False, default=datetime.now)
+    updatetime = Column(DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, name=None):
         self.name = name
@@ -20,8 +20,8 @@ class Blog(Base):
     title = Column(String(255), nullable=False)
     tags = Column(Text, nullable=False)
     content = Column(Text, nullable=False)
-    addtime = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updatetime = Column(DateTime, nullable=False, default=datetime.utcnow)
+    addtime = Column(DateTime, nullable=False, default=datetime.now)
+    updatetime = Column(DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, title=None, tags=None, content=None):
         self.title = title
@@ -33,8 +33,8 @@ class GTags(Base):
     __tablename__ = 'gtags'
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True)
-    addtime = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updatetime = Column(DateTime, nullable=False, default=datetime.utcnow)
+    addtime = Column(DateTime, nullable=False, default=datetime.now)
+    updatetime = Column(DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, name=None):
         self.name = name
@@ -46,8 +46,8 @@ class Gallery(Base):
     link = Column(String(255), nullable=False)
     tags = Column(Text, nullable=False)
     caption = Column(Text, nullable=False)
-    addtime = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updatetime = Column(DateTime, nullable=False, default=datetime.utcnow)
+    addtime = Column(DateTime, nullable=False, default=datetime.now)
+    updatetime = Column(DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, link=None, tags=None, caption=None):
         self.link = link

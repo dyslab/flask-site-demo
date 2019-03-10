@@ -37,7 +37,6 @@ class ExcelJsonPageData(PageData, TestFields):
             pass
 
     def readCSV2List(self, csvfilename):
-        returnList = []
         with open(
             os.path.join(self.__BASE_PATH__, csvfilename),
             newline=''
@@ -46,8 +45,7 @@ class ExcelJsonPageData(PageData, TestFields):
                 csvfile,
                 fieldnames=TestFields().__FIELD_LIST__
             )
-            for row in reader:
-                returnList.append(row)
+            returnList = [row for row in reader]
         return returnList
 
     def readXSLX2List(self, xslxfilename):
@@ -69,7 +67,7 @@ class ExcelJsonPageData(PageData, TestFields):
         return returnList
 
     def readJSON2List(self, jsonfilename):
-        returnList = []
+        returnList = None
         with open(
             os.path.join(self.__BASE_PATH__, jsonfilename),
             newline=''

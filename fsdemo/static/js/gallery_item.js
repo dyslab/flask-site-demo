@@ -29,8 +29,8 @@ $(document).ready(function() {
             msg + "</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">" +
             "<span aria-hidden=\"true\">&times;</span></button></div>";
         insertHTML += "<div><figure class=\"figure\"><img src=\"" +
-            data.itemlink + "\" class=\"figure-img img-fluid rounded\" alt=\"" +
-            data.itemlink + "\"><figcaption class=\"figure-caption\">" +
+            data.link + "\" class=\"figure-img img-fluid rounded\" alt=\"" +
+            data.link + "\"><figcaption class=\"figure-caption\">" +
             data.caption + "</figcaption></figure></div>"
         insertHTML += "<div><ul class=\"list-inline\">" +
             "<li class=\"list-inline-item\">Tags: </li>";

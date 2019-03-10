@@ -58,7 +58,7 @@ $(document).ready(function() {
                     "</div>")); 
             }
         });
-        $("#tagsMangementModal").modal('show');
+        $("#tagsMangementModal").modal("show");
     });
 
     // Manage Tags: Remove tag
@@ -87,18 +87,34 @@ $(document).ready(function() {
         }
     });
 
+    // Manage Tags: Set response after tags changes
+    function SetResponseAfterTagsChange(msg) {
+        insertHTML = "<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\"><strong>" +
+            msg + "</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">" +
+            "<span aria-hidden=\"true\">&times;</span></button></div>";
+        $("#tagsresponse").append($(insertHTML).delay(2000).fadeOut());
+    }
+
     // Manage Tags: Save changes
     $(".mt-save").click(function() {
-        // Ajax call to save tags on server side.
-        // ...
-
-        // Synchronize changes for '#taglist'
+        // Synchronize changes for "#taglist"
+        var tags = [];
         $("#taglist").children(".custom-option-tag").remove();
         // $("#taglist").append($("<option value=\"\" selected>Select Tag</option>"));
         $("div.custom-mt-tag-name").each(function() {
             $("#taglist").append($("<option class=\"custom-option-tag\" value=\"" + 
-                $(this).text() + "\">" + $(this).text() + "</option>")); 
+                $(this).text() + "\">" + $(this).text() + "</option>"));
+            tags.push($(this).text());
         });
-        $("#tagsMangementModal").modal('toggle');
+
+        // Ajax call to save tags on server side.
+        $.post($("#manageTagsLink").text(), { "tags": tags } )
+            .done(function(data) {
+                resObj = JSON.parse(data);
+                SetResponseAfterTagsChange(resObj.resMsg);
+            });
+
+        // Hide tags management modal dialog.
+        $("#tagsMangementModal").modal("toggle");
     });
 });

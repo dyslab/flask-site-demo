@@ -3,7 +3,7 @@ from flask import url_for, current_app
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from fsdemo.pagedata.gallery import GalleryUploadPageData
 from fsdemo.response import JsonResponse
-from fsdemo.pagedata.gallery import GalleryMiddleware
+from fsdemo.pagedata.gallery import GTagsMiddleware, GalleryMiddleware
 
 gallery_page = Blueprint(
     'gallery',
@@ -23,6 +23,23 @@ def gallery_upload():
     )
 
 
+@gallery_page.route('/save/tags', methods=['POST'])
+def gallery_save_tags():
+    res = JsonResponse()
+    try:
+        tags = request.form.getlist('tags[]')
+        tags.reverse()
+        if GTagsMiddleware().save_all_to_db(tags):
+            res.resMsg = 'Note: Tags saved successfully.'
+        else:
+            res.resMsg = 'Note: Failed to save tags.'
+    except Exception as e:
+        res.resCode = -1
+        res.resMsg = e.args.__name__
+        pass
+    return res.outputJsonString()
+
+
 @gallery_page.route('/do/upload', methods=['POST'])
 def gallery_do_upload():
     res = JsonResponse()
@@ -33,14 +50,16 @@ def gallery_do_upload():
             configure_uploads(current_app, (photos))
             filename = photos.save(request.files['photo'])
             gitem = GalleryMiddleware(
-                itemlink=photos.url(filename),
+                link=photos.url(filename),
                 tags=request.form.getlist('tags'),
                 caption=request.form['caption']
             )
-            gitem.save_to_SQLite3()
-            res.resMsg = 'Tips: Photo saved successfully.'
+            if gitem.save_to_db():
+                res.resMsg = 'Note: Photo saved successfully.'
+            else:
+                res.resMsg = 'Note: Failed to save photo.'
             res.data = gitem.outputDict()
-        except EnvironmentError:
+        except Exception:
             res.resCode = -1
             res.resMsg = 'Error: Upload failed.\n\n' + \
                 'The file size maybe exceeds limited size [' + \

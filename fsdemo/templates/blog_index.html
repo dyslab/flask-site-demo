@@ -29,14 +29,14 @@
     {% endfor %}
 {%- endmacro %}
 
-{% macro render_writepanel(objectTags, allTagList) -%}
+{% macro render_writepanel(objectTags, tagsList, manageTagsLink) -%}
     <div class="form-group row mb-4">
         <label for="blogtitle" class="col-lg-2 col-form-label col-form-label-lg text-lg-right font-italic">Title: </label>
         <div class="col-lg-9">
             <input type="text" id="blogtitle" class="form-control form-control-lg" placeholder="Blog Title" required>
         </div>
     </div>
-    {{ widget_tags.render_tags_part(objectTags, allTagList) }}
+    {{ widget_tags.render_tags_part(objectTags, tagsList, manageTagsLink) }}
     <div class="mb-3">
         <textarea id="blogcontent"></textarea>
     </div>
@@ -96,7 +96,7 @@
                             {{ render_homepanel(pageData.blogList) }}
                         </div>
                         <div class="tab-pane card p-3 p-lg-5" id="write" role="tabpanel">
-                            {{ render_writepanel(pageData.objectTags, pageData.allTagList) }}
+                            {{ render_writepanel(pageData.objectTags, pageData.tagsList, pageData.manageTagsLink) }}
                         </div>
                         <div class="tab-pane card p-3 p-lg-5" id="search" role="tabpanel">
                             {{ render_searchpanel() }}

@@ -1,4 +1,53 @@
+from datetime import datetime
 from fsdemo.pagedata.base import PageData
+from fsdemo.models import BTags
+from fsdemo.db import db_session
+
+
+class BTagsMiddleware(object):
+    def load_all_from_db(self):
+        db_tags = BTags.query.order_by(BTags.updatetime.desc()).all()
+        tags = [record.name for record in db_tags]
+        return tags
+
+    def save_all_to_db(self, tags):
+        # print(tags) # print for TEST
+        rflag = True
+        try:
+            # Remove all old tags.
+            old_tags = BTags.query.all()
+            for olditem in old_tags:
+                db_session.delete(olditem)
+            db_session.commit()
+            # Insert all new tags.
+            new_tags = [BTags(tag) for tag in tags]
+            db_session.add_all(new_tags)
+            # Commit.
+            db_session.commit()
+        except Exception:
+            db_session.rollback()
+            rflag = False
+            pass
+        return rflag
+
+    # Update the field 'updatetime' of all database records to the current
+    # timestamp according to the list item of 'tags'.
+    def update_tags(self, tags):
+        print(tags)  # print for TEST
+        rflag = True
+        try:
+            # Remove all old tags.
+            for tag in tags:
+                gtagitem = BTags.query.filter_by(name=tag).first()
+                if gtagitem is not None:
+                    print(gtagitem.name)
+                    gtagitem.updatetime = datetime.now()
+                    db_session.commit()
+        except Exception:
+            db_session.rollback()
+            rflag = False
+            pass
+        return rflag
 
 
 # Generate page data
@@ -40,6 +89,8 @@ class BlogPageData(PageData):
         ]
         # For blog write/edit tab panel.
         self.objectTitle = 'Blog title'
-        self.allTagList = ['Personal', 'View', 'Dairy', 'Content', 'Test']
-        self.objectTags = ['Dairy', 'Test']
+        # eg. self.tagsList = ['Personal', 'View', 'Dairy', 'Content', 'Test']
+        self.tagsList = BTagsMiddleware().load_all_from_db()
+        self.manageTagsLink = '/blog/save/tags'
+        self.objectTags = []
         self.objectContent = 'This is a blog content example.'
