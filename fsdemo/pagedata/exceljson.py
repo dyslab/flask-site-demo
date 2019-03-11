@@ -67,7 +67,7 @@ class ExcelJsonPageData(PageData, TestFields):
         return returnList
 
     def readJSON2List(self, jsonfilename):
-        returnList = None
+        returnList = []
         with open(
             os.path.join(self.__BASE_PATH__, jsonfilename),
             newline=''

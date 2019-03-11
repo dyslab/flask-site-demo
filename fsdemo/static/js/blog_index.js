@@ -22,6 +22,69 @@ $(document).ready(function() {
         }, 3500);
     }
 
+    // Home Tab: Blog's 'Edit' button click function
+    $("div#home").on("click", "a.blog-edit", function(event) {
+        event.preventDefault();
+        alert($(this).attr("href"));
+        ChangeActiveTab(1);
+    });
+
+    // Home Tab: Blog's 'Delete' button click function
+    $("div#home").on("click", "a.blog-delete", function(event) {
+        event.preventDefault();
+        if (confirm("Are you sure to delete this blog?")) {
+            alert($(this).attr("href"));
+        }
+    });
+
+    // Home Tab: Append blog for loadmore
+    function appendBlog(data) {
+        if (data.resCode === 0) {
+            blogdata = data.data;
+            for (id=0; id<blogdata.bloglist.length; id++) {
+                insertHTML = "<div class=\"blog-wrap\">" +
+                    "<hr class=\"mt-3 mb-3 mt-lg-5 mb-lg-5\">";
+                insertHTML += "<div class=\"custom-blog-title mb-4\">" +
+                    "<span class=\"h3\">" +
+                    blogdata.bloglist[id].title + "</span><small><a href=\"" + 
+                    blogdata.bloglist[id].id +
+                    "\" class=\"blog-edit\">Edit</a></small></div>" +
+                    "<div class=\"row mb-3\">" +
+                    "<div class=\"col-5 col-sm-3 col-md-2 custom-blog-time\">" +
+                    blogdata.bloglist[id].time + "</div>" +
+                    "<div class=\"col-7 col-sm-9 col-md-10 custom-blog-tags\">" +
+                    "<ul class=\"list-inline\">";
+                for(tagid=0; tagid<blogdata.bloglist[id].tags.length; tagid++) {
+                    insertHTML += "<li class=\"list-inline-item\">" +
+                        "<span class=\"badge badge-pill badge-warning\">" +
+                        blogdata.bloglist[id].tags[tagid] + "</span></li>";
+                }
+                insertHTML += "</ul></div></div>" +
+                    "<div class=\"custom-blog-content\">" +
+                    blogdata.bloglist[id].content + "</div>";
+                insertHTML += "<div class=\"text-right\"><small><a href=\"" + 
+                    blogdata.bloglist[id].id +
+                    "\" class=\"blog-delete\">Delete</a></small></div></div>";
+                $("div#home").append($(insertHTML));
+            }
+            if (blogdata.nextpage > 0) {
+                insertHTML = "<div class=\"mt-3 mb-3 mt-lg-5 mb-lg-5 text-center nextab\">" +
+                    "<button id=\"loadmore\" class=\"btn btn-success\" nextpage=\"" + 
+                    blogdata.nextpage + "\">Load More ...</button></div>";
+                $("div#home").append($(insertHTML));
+            }
+        }
+    }
+
+    // Home Tab: Load more blogs... 
+    $("div#home").on("click", "button#loadmore", function() {
+        var nextp = $(this).attr("nextpage");
+        $.get('/blog/loadmore/' + nextp, function(data) {
+            $("div.nextab").remove();
+            appendBlog(JSON.parse(data));
+        });
+    });
+
     // Write Tab: Ajax submit new blog.
     $("#writeform").submit(function(event) {
         event.preventDefault();

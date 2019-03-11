@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, current_app
 from fsdemo.response import JsonResponse
 from fsdemo.pagedata.blog import BlogPageData, BTagsMiddleware, BlogMiddleware
 
@@ -48,8 +48,26 @@ def blog_new():
         # res.data = bitem.outputDict()
     except Exception:
         res.resCode = -1
-        res.resMsg = 'Error: Upload failed.' + \
+        res.resMsg = 'Error: Network failed.' + \
             ' Check your network connection please.'
         pass
     # print(res.outputJsonString()) # Print for test.
+    return res.outputJsonString()
+
+
+@blog_page.route('/loadmore/<int:page>', methods=['GET'])
+def blog_loadmore(page):
+    res = JsonResponse()
+    try:
+        blist = BlogMiddleware().load_from_db(
+            page, current_app.config['BLOG_PER_PAGE']
+        )
+        res.data = blist
+        # print(res.data)  # Print for test.
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString())  # Print for test.
     return res.outputJsonString()

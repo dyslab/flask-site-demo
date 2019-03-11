@@ -21,3 +21,6 @@ class Config(object):
     # Limited size of upload file is 10MB.
     MAX_CONTENT_LENGTH_MB = 10
     MAX_CONTENT_LENGTH = MAX_CONTENT_LENGTH_MB * 1024 * 1024
+
+    # Blog configuration
+    BLOG_PER_PAGE = 10

@@ -1,32 +1,43 @@
 {% extends "layout/layout.html" %}
 {% import "widget_tags.html" as widget_tags %}
 
-{% macro render_homepanel(blogList) -%}
+{% macro render_homepanel(blogList, nextPage) -%}
     {% for blog in blogList %}
-        <div class="custom-blog-title mb-4">
-            <span class="h3">{{ blog['title'] }}</span>
-            <small><a href="#">Edit</a></small>
-        </div>
-        <div class="row mb-3">
-            <div class="col-5 col-sm-3 col-md-2 custom-blog-time">{{ blog['time'] }}</div>
-            <div class="col-7 col-sm-9 col-md-10 custom-blog-tags">
-                <ul class="list-inline">
-                    {% for objecttag in blog['tags'] %}
-                        <li class="list-inline-item">
-                            <span class="badge badge-pill badge-secondary">{{ objecttag }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
+        <div class="blog-wrap">
+            {% if not loop.first %}
+                <hr class="mt-3 mb-3 mt-lg-5 mb-lg-5">
+            {% endif %}
+            <div class="custom-blog-title mb-4">
+                <span class="h3">{{ blog['title'] }}</span>
+                <small><a href="{{ blog['id'] }}" class="blog-edit">Edit</a></small>
+            </div>
+            <div class="row mb-3">
+                <div class="col-5 col-sm-3 col-md-2 custom-blog-time">{{ blog['time'] }}</div>
+                <div class="col-7 col-sm-9 col-md-10 custom-blog-tags">
+                    <ul class="list-inline">
+                        {% for objecttag in blog['tags'] %}
+                            <li class="list-inline-item">
+                                <span class="badge badge-pill badge-warning">{{ objecttag }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="custom-blog-content">
+                {% autoescape false %}
+                    {{ blog['content'] }}
+                {% endautoescape %}
+            </div>
+            <div class="text-right">
+                <small><a href="{{ blog['id'] }}" class="blog-delete">Delete</a></small>
             </div>
         </div>
-        <div class="custom-blog-content">{{ blog['content'] }}</div>
-        <div class="text-right">
-            <small><a href="#">Delete</a></small>
-        </div>
-        {% if not loop.last %}
-            <hr class="mt-3 mb-3 mt-lg-5 mb-lg-5">
-        {% endif %}
     {% endfor %}
+    {% if nextPage > 0 %}
+        <div class="mt-3 mb-3 mt-lg-5 mb-lg-5 text-center nextab">
+            <button id="loadmore" class="btn btn-success" nextpage="{{ nextPage }}">Load More ...</button>
+        </div>
+    {% endif %}
 {%- endmacro %}
 
 {% macro render_writepanel(objectTags, tagsList, manageTagsLink) -%}
@@ -96,7 +107,7 @@
                 <div class="col-lg-10">
                     <div id="panelList" class="tab-content">
                         <div class="tab-pane card p-3 p-lg-5" id="home" role="tabpanel">
-                            {{ render_homepanel(pageData.blogList) }}
+                            {{ render_homepanel(pageData.blogList, pageData.nextPage) }}
                         </div>
                         <div class="tab-pane card p-3 p-lg-5" id="write" role="tabpanel">
                             {{ render_writepanel(pageData.objectTags, pageData.tagsList, pageData.manageTagsLink) }}

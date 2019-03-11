@@ -1,8 +1,11 @@
 from datetime import datetime
+from flask import current_app
 from fsdemo.pagedata.base import PageData
+from fsdemo.basefunc import ConvertTimesDiff
 from fsdemo.models import BTags, Blog
 from fsdemo.db import db_session
 import json
+import markdown
 
 
 # Database Access Middleware: For model 'BTags'.
@@ -79,6 +82,30 @@ class BlogMiddleware(object):
             pass
         return rflag
 
+    def load_from_db(self, page, per_page):
+        return_list = []
+        if page > 0 and per_page > 0:
+            if (page * per_page) < Blog.query.count():
+                nextpage = page + 1
+            else:
+                nextpage = -1
+            try:
+                pageitems = Blog.query.order_by(
+                    Blog.updatetime.desc()
+                ).limit(per_page).offset((page-1)*per_page).all()
+                return_list = [{
+                    'id': pitem.id,
+                    'title': pitem.title,
+                    'time': ConvertTimesDiff(dest_time=pitem.updatetime),
+                    'tags': json.loads(pitem.tags),
+                    'content':  markdown.markdown(
+                        pitem.content, extensions=['extra']
+                    )
+                } for pitem in pageitems]
+            except Exception:
+                pass
+        return {'nextpage': nextpage, 'bloglist': return_list}
+
     def outputDict(self):
         return {
             'title': self.title,
@@ -105,26 +132,31 @@ class BlogPageData(PageData):
         self.activePanelID = 0
         # For blog list tab panel.
         self.pageTitle = self.pageTitle + ' / Blog Page'
-        self.blogList = [
-            {
-                'title': 'Blog title #1',
-                'time': '2019-3-3',
-                'tags': ['Personal', 'View'],
-                'content': 'Blog content Tag #3 Tag #2'
-            },
-            {
-                'title': 'Blog title #2',
-                'time': '2019-3-2',
-                'tags': ['Dairy', 'Content', 'Test'],
-                'content': 'Blog content #3'
-            },
-            {
-                'title': 'Blog title #3',
-                'time': '2019-3-1',
-                'tags': ['Content', 'Test'],
-                'content': 'Blog content #5'
-            }
-        ]
+        '''
+            The blogList format example:
+            self.blogList = [
+                {
+                    'id': 1,
+                    'title': 'Blog title #1',
+                    'time': '2019-3-3',
+                    'tags': ['Personal', 'View'],
+                    'content': 'Blog content Tag #3 Tag #2'
+                },
+                {
+                    'id': 2,
+                    'title': 'Blog title #2',
+                    'time': '2019-3-2',
+                    'tags': ['Dairy', 'Content', 'Test'],
+                    'content': 'Blog content #3'
+                },
+                ...
+            ]
+        '''
+        blogs = BlogMiddleware().load_from_db(
+            1, current_app.config['BLOG_PER_PAGE']
+        )
+        self.blogList = blogs['bloglist']
+        self.nextPage = blogs['nextpage']
         # For blog write/edit tab panel.
         self.objectTitle = 'Blog title'
         # eg. self.tagsList = ['Personal', 'View', 'Dairy', 'Content', 'Test']
