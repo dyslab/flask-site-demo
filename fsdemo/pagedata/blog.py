@@ -1,7 +1,9 @@
 from datetime import datetime
 from flask import current_app
+from sqlalchemy import or_
 from fsdemo.pagedata.base import PageData
-from fsdemo.basefunc import ConvertTimesDiff
+from fsdemo.basefunc import ConvertTimesDiff, StringToArrayWithoutSpace
+from fsdemo.basefunc import HighlightSearchTerms
 from fsdemo.models import BTags, Blog
 from fsdemo.db import db_session
 import json
@@ -10,12 +12,12 @@ import markdown
 
 # Database Access Middleware: For model 'BTags'.
 class BTagsMiddleware(object):
-    def load_all_from_db(self):
+    def load_all(self):
         db_tags = BTags.query.order_by(BTags.updatetime.desc()).all()
         tags = [record.name for record in db_tags]
         return tags
 
-    def save_all_to_db(self, tags):
+    def save_all(self, tags):
         # print(tags) # print for TEST
         rflag = True
         try:
@@ -57,60 +59,161 @@ class BTagsMiddleware(object):
 
 # Database Access Middleware: For model 'Blog'.
 class BlogMiddleware(object):
-    def __init__(self, title='', tags=None, content=''):
-        self.title = title
-        self.tags = tags
-        self.content = content
-
-    def save_to_db(self):
+    def save_one(self, title='', tags=None, content=''):
         rflag = True
         try:
-            tags_str = json.dumps(self.tags, ensure_ascii=False)
+            tags_str = json.dumps(tags, ensure_ascii=False)
             newitem = Blog(
-                title=self.title,
+                title=title,
                 tags=tags_str,
-                content=self.content
+                content=content
             )
             db_session.add(newitem)
             db_session.commit()
-
             # Update tags time.
-            BTagsMiddleware().update_tags(self.tags)
+            BTagsMiddleware().update_tags(tags)
         except Exception:
             db_session.rollback()
             rflag = False
             pass
         return rflag
 
-    def load_from_db(self, page, per_page):
+    def load_by_id(self, id):
+        if id > 0:
+            bitem = Blog.query.filter_by(id=id).first()
+            if bitem is not None:
+                return {
+                    'id': bitem.id,
+                    'title': bitem.title,
+                    'tags': json.loads(bitem.tags),
+                    'content': bitem.content
+                }
+        return None
+
+    def save_by_id(self, id=0, title='', tags=None, content=''):
+        rflag = False
+        if id > 0:
+            try:
+                tags_str = json.dumps(tags, ensure_ascii=False)
+                bitem = Blog.query.filter_by(id=id).first()
+                bitem.title = title
+                bitem.tags = tags_str
+                bitem.content = content
+                bitem.updatetime = datetime.now()
+                db_session.commit()
+                # Update tags time.
+                BTagsMiddleware().update_tags(tags)
+                rflag = True
+            except Exception:
+                db_session.rollback()
+                pass
+        return rflag
+
+    def delete_by_id(self, id):
+        rflag = False
+        if id > 0:
+            bitem = Blog.query.filter_by(id=id).first()
+            if bitem is not None:
+                db_session.delete(bitem)
+                db_session.commit()
+                rflag = True
+        return rflag
+
+    def load_all(self, page=1, off=0, per_page=10):
         return_list = []
         if page > 0 and per_page > 0:
-            if (page * per_page) < Blog.query.count():
+            if (page * per_page + off) < Blog.query.count():
                 nextpage = page + 1
             else:
                 nextpage = -1
             try:
                 pageitems = Blog.query.order_by(
                     Blog.updatetime.desc()
-                ).limit(per_page).offset((page-1)*per_page).all()
+                ).limit(per_page).offset((page-1)*per_page+off).all()
                 return_list = [{
                     'id': pitem.id,
                     'title': pitem.title,
-                    'time': ConvertTimesDiff(dest_time=pitem.updatetime),
+                    'time': ConvertTimesDiff(
+                        base_time=datetime.now(),
+                        dest_time=pitem.updatetime
+                    ),
                     'tags': json.loads(pitem.tags),
                     'content':  markdown.markdown(
-                        pitem.content, extensions=['extra']
+                        pitem.content,
+                        extensions=['extra', 'nl2br', 'toc']
                     )
                 } for pitem in pageitems]
             except Exception:
                 pass
-        return {'nextpage': nextpage, 'bloglist': return_list}
-
-    def outputDict(self):
         return {
-            'title': self.title,
-            'tags': self.tags,
-            'content': self.content
+            'nextpage': nextpage,
+            'offset': off,
+            'bloglist': return_list
+        }
+
+    def search(self, page=1, off=0, per_page=10, tags=None, terms=None):
+        return_list = []
+        if page > 0 and per_page > 0:
+            try:
+                if tags is not None:
+                    tags_1 = [('%' + tag + '%') for tag in tags]
+                    tags_1.append('[]')
+                    tagsrule = or_(
+                        *[Blog.tags.like(t1) for t1 in tags_1]
+                    )
+                else:
+                    tagsrule = None
+                termsrule = None
+                terms_1 = StringToArrayWithoutSpace(terms.strip())
+                terms_2 = [('%' + te1 + '%') for te1 in terms_1]
+                termsrule = or_(
+                    *[or_(
+                        Blog.title.like(te2),
+                        Blog.content.like(te2)
+                    ) for te2 in terms_2]
+                )
+                pageitems = Blog.query.order_by(
+                    Blog.updatetime.desc()
+                ).filter(
+                    termsrule
+                ).filter(
+                    tagsrule
+                ).limit(
+                    per_page
+                ).offset(
+                    (page-1)*per_page+off
+                ).all()
+                return_list = [{
+                    'id': pitem.id,
+                    'title': HighlightSearchTerms(pitem.title, terms_1),
+                    'time': ConvertTimesDiff(
+                        base_time=datetime.now(),
+                        dest_time=pitem.updatetime
+                    ),
+                    'tags': json.loads(pitem.tags),
+                    'content':  markdown.markdown(
+                        HighlightSearchTerms(pitem.content, terms_1),
+                        extensions=['extra', 'nl2br', 'toc']
+                    )
+                } for pitem in pageitems]
+                search_count = Blog.query.order_by(
+                    Blog.updatetime.desc()
+                ).filter(
+                    termsrule
+                ).filter(
+                    tagsrule
+                ).count()
+                if (page * per_page + off) < search_count:
+                    nextpage = page + 1
+                else:
+                    nextpage = -1
+            except Exception:
+                pass
+        return {
+            'count': search_count,
+            'nextpage': nextpage,
+            'offset': off,
+            'bloglist': return_list
         }
 
 
@@ -152,15 +255,16 @@ class BlogPageData(PageData):
                 ...
             ]
         '''
-        blogs = BlogMiddleware().load_from_db(
-            1, current_app.config['BLOG_PER_PAGE']
+        blogs = BlogMiddleware().load_all(
+            1, 0, current_app.config['BLOG_PER_PAGE']
         )
         self.blogList = blogs['bloglist']
         self.nextPage = blogs['nextpage']
+        self.offsetPos = blogs['offset']
         # For blog write/edit tab panel.
         self.objectTitle = 'Blog title'
         # eg. self.tagsList = ['Personal', 'View', 'Dairy', 'Content', 'Test']
-        self.tagsList = BTagsMiddleware().load_all_from_db()
+        self.tagsList = BTagsMiddleware().load_all()
         self.manageTagsLink = '/blog/save/tags'
         self.objectTags = []
         self.objectContent = 'This is a blog content example.'

@@ -21,7 +21,7 @@ def blog_save_tags():
     try:
         tags = request.form.getlist('tags[]')
         tags.reverse()
-        if BTagsMiddleware().save_all_to_db(tags):
+        if BTagsMiddleware().save_all(tags):
             res.resMsg = 'Note: Tags saved successfully.'
         else:
             res.resMsg = 'Note: Failed to save tags.'
@@ -36,16 +36,72 @@ def blog_save_tags():
 def blog_new():
     res = JsonResponse()
     try:
-        bitem = BlogMiddleware(
+        bflag = BlogMiddleware().save_one(
             title=request.form['blogtitle'],
             tags=request.form.getlist('tags'),
             content=request.form['blogcontent']
         )
-        if bitem.save_to_db():
+        if bflag:
             res.resMsg = 'Note: New blog saved successfully.'
         else:
             res.resMsg = 'Note: Failed to save the blog.'
-        # res.data = bitem.outputDict()
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString()) # Print for test.
+    return res.outputJsonString()
+
+
+@blog_page.route('/edit/<int:id>', methods=['GET'])
+def blog_edit(id):
+    res = JsonResponse()
+    try:
+        blog = BlogMiddleware().load_by_id(id=id)
+        if blog is not None:
+            res.data = blog
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString()) # Print for test.
+    return res.outputJsonString()
+
+
+@blog_page.route('/delete/<int:id>', methods=['GET'])
+def blog_delete(id):
+    res = JsonResponse()
+    try:
+        bflag = BlogMiddleware().delete_by_id(id=id)
+        if bflag:
+            res.resMsg = 'Note: Blog deleted successfully.'
+        else:
+            res.resMsg = 'Note: Failed to delete the blog.'
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString()) # Print for test.
+    return res.outputJsonString()
+
+
+@blog_page.route('/edit/save', methods=['POST'])
+def blog_edit_save():
+    res = JsonResponse()
+    try:
+        bflag = BlogMiddleware().save_by_id(
+            id=int(request.form['blogid']),
+            title=request.form['blogtitle'],
+            tags=request.form.getlist('tags'),
+            content=request.form['blogcontent']
+        )
+        if bflag:
+            res.resMsg = 'Note: Blog saved successfully.'
+        else:
+            res.resMsg = 'Note: Failed to edit the blog.'
     except Exception:
         res.resCode = -1
         res.resMsg = 'Error: Network failed.' + \
@@ -59,8 +115,50 @@ def blog_new():
 def blog_loadmore(page):
     res = JsonResponse()
     try:
-        blist = BlogMiddleware().load_from_db(
-            page, current_app.config['BLOG_PER_PAGE']
+        off = int(request.args.get('off', '0'))
+        blist = BlogMiddleware().load_all(
+            page, off, current_app.config['BLOG_PER_PAGE']
+        )
+        res.data = blist
+        # print(res.data)  # Print for test.
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString())  # Print for test.
+    return res.outputJsonString()
+
+
+@blog_page.route('/search', methods=['POST'])
+def blog_search():
+    res = JsonResponse()
+    try:
+        blist = BlogMiddleware().search(
+            1, 0, current_app.config['BLOG_PER_PAGE'],
+            request.form.getlist('searchtags'),
+            request.form['searchterms'],
+        )
+        res.data = blist
+        # print(res.data)  # Print for test.
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString())  # Print for test.
+    return res.outputJsonString()
+
+
+@blog_page.route('/search/loadmore/<int:page>', methods=['GET', 'POST'])
+def blog_search_loadmore(page):
+    res = JsonResponse()
+    try:
+        off = int(request.args.get('off', '0'))
+        blist = BlogMiddleware().search(
+            page, off, current_app.config['BLOG_PER_PAGE'],
+            request.form.getlist('searchtags'),
+            request.form['searchterms'],
         )
         res.data = blist
         # print(res.data)  # Print for test.

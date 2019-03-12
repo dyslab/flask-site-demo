@@ -7,12 +7,12 @@ from fsdemo.db import db_session
 
 # Database Access Middleware: For model 'GTags'.
 class GTagsMiddleware(object):
-    def load_all_from_db(self):
+    def load_all(self):
         db_tags = GTags.query.order_by(GTags.updatetime.desc()).all()
         tags = [record.name for record in db_tags]
         return tags
 
-    def save_all_to_db(self, tags):
+    def save_all(self, tags):
         # print(tags) # print for TEST
         rflag = True
         try:
@@ -54,37 +54,24 @@ class GTagsMiddleware(object):
 
 # Database Access Middleware: For model 'Gallery'.
 class GalleryMiddleware(object):
-    def __init__(self, link='', tags=None, caption=''):
-        self.link = link
-        self.tags = tags
-        self.caption = caption
-
-    def save_to_db(self):
+    def save_one(self, link='', tags=None, caption=''):
         rflag = True
         try:
-            tags_str = json.dumps(self.tags, ensure_ascii=False)
+            tags_str = json.dumps(tags, ensure_ascii=False)
             newitem = Gallery(
-                link=self.link,
+                link=link,
                 tags=tags_str,
-                caption=self.caption
+                caption=caption
             )
             db_session.add(newitem)
             db_session.commit()
-
             # Update tags time.
-            GTagsMiddleware().update_tags(self.tags)
+            GTagsMiddleware().update_tags(tags)
         except Exception:
             db_session.rollback()
             rflag = False
             pass
         return rflag
-
-    def outputDict(self):
-        return {
-            'link': self.link,
-            'tags': self.tags,
-            'caption': self.caption
-        }
 
 
 # Generate page data
@@ -96,7 +83,7 @@ class GalleryUploadPageData(PageData):
         PageData.__init__(self)
         self.pageTitle = self.pageTitle + ' / Gallery Upload Page'
         # eg. self.allTagList = ['Tag name #1', 'Tag name #2', 'Tag name #2']
-        self.tagsList = GTagsMiddleware().load_all_from_db()
+        self.tagsList = GTagsMiddleware().load_all()
         # eg. self.objectTags = ['Tag name #1', 'Tag name #2']
         self.manageTagsLink = '/gallery/save/tags'
         self.objectTags = []

@@ -1,27 +1,27 @@
 {% extends "layout/layout.html" %}
 {% import "widget_tags.html" as widget_tags %}
 
-{% macro render_homepanel(blogList, nextPage) -%}
+{% macro render_homepanel(blogList, nextPage, offsetPos) -%}
     {% for blog in blogList %}
         <div class="blog-wrap">
             {% if not loop.first %}
-                <hr class="mt-3 mb-3 mt-lg-5 mb-lg-5">
+                <hr class="mt-3 mb-3 mt-lg-5 mb-lg-5 hr-separator">
             {% endif %}
             <div class="custom-blog-title mb-4">
                 <span class="h3">{{ blog['title'] }}</span>
                 <small><a href="{{ blog['id'] }}" class="blog-edit">Edit</a></small>
             </div>
-            <div class="row mb-3">
-                <div class="col-5 col-sm-3 col-md-2 custom-blog-time">{{ blog['time'] }}</div>
-                <div class="col-7 col-sm-9 col-md-10 custom-blog-tags">
-                    <ul class="list-inline">
-                        {% for objecttag in blog['tags'] %}
-                            <li class="list-inline-item">
-                                <span class="badge badge-pill badge-warning">{{ objecttag }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+            <div class="mb-3">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <span>{{ blog['time'] }}</span>
+                    </li>
+                    {% for objecttag in blog['tags'] %}
+                        <li class="list-inline-item">
+                            <span class="badge badge-pill badge-warning">{{ objecttag }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="custom-blog-content">
                 {% autoescape false %}
@@ -35,18 +35,26 @@
     {% endfor %}
     {% if nextPage > 0 %}
         <div class="mt-3 mb-3 mt-lg-5 mb-lg-5 text-center nextab">
-            <button id="loadmore" class="btn btn-success" nextpage="{{ nextPage }}">Load More ...</button>
+            <button id="loadmore" class="btn btn-success" nextpage="{{ nextPage }}" offset="{{ offsetPos }}">Load More ...</button>
         </div>
     {% endif %}
 {%- endmacro %}
 
 {% macro render_writepanel(objectTags, tagsList, manageTagsLink) -%}
     <form id="writeform" method="POST">
-        <div class="form-group row mb-4">
-            <label for="blogtitle" class="col-lg-2 col-form-label col-form-label-lg text-lg-right font-italic">Title: </label>
-            <div class="col-lg-9">
-                <input type="text" id="blogtitle" name="blogtitle" class="form-control form-control-lg" placeholder="Blog Title" required>
-            </div>
+        <input type="hidden" id="blogid" name="blogid" value="0">
+        <div class="mb-4 h5">
+            Operation: <strong><span id="action" class="text-primary">NEW</span></strong>
+        </div>
+        <div class="form-group mb-4">
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <label for="blogtitle" class="col-form-label col-form-label-lg text-lg-right font-italic">Title: </label>
+                </li>
+                <li class="list-inline-item">
+                    <input type="text" id="blogtitle" name="blogtitle" class="form-control form-control-lg" placeholder="Blog Title" required>
+                </li>
+            </ul>
         </div>
         {{ widget_tags.render_tags_part(objectTags, tagsList, manageTagsLink) }}
         <div class="mb-3">
@@ -60,27 +68,29 @@
 {%- endmacro %}
 
 {% macro render_searchpanel() -%}
-    <div class="mb-3">
-        <ul class="list-inline custom-blog-search-tag-container">
-            <li class="list-inline-item">
-                <span class="font-italic">Include Tags: </span>
-            </li>
-        </ul>
-    </div>
-    <div class="col-lg-10 p-0 mb-3">
-        <input type="text" id="searchterms" class="form-control" placeholder="Search Terms">
-    </div>
-    <div class="row mb-3">
-        <div class="col-lg-2 mb-3">
-            <button id="reset" class="btn btn-info">Reset</button>
+    <form id="searchform" method="POST">
+        <div class="mb-3">
+            <ul class="list-inline custom-search-tag-container">
+                <li class="list-inline-item">
+                    <span class="font-italic">Include Tags: </span>
+                </li>
+            </ul>
         </div>
-        <div class="col-lg-8 text-lg-right">
-            <button type="submit" class="btn btn-success">Search Blog</button>
+        <div class="col-lg-10 p-0 mb-3">
+            <input type="text" name="searchterms" id="searchterms" class="form-control" placeholder="Search Terms">
         </div>
-    </div>
-    <div class="mt-3 mb-3 font-italic custom-search-sperator">
-        Search Result: XXXX articles found.
-        <hr>
+        <div class="row mb-3">
+            <div class="col-lg-2 mb-3">
+                <button id="reset" class="btn btn-info">Reset</button>
+            </div>
+            <div class="col-lg-8 text-lg-right">
+                <button type="submit" class="btn btn-success">Search Blog</button>
+            </div>
+        </div>
+    </form>
+    <div class="mt-3 mb-3 custom-search-result">
+        <div id="custom-search-result-count" class="font-italic"></div>
+        <div id="custom-search-result-list"></div>
     </div>
 {%- endmacro %}
 
@@ -99,7 +109,7 @@
                 <div class="col-lg-2 mb-3">
                     <div class="list-group" id="menuList" role="tablist">
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#home" role="tab">Blog</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#write" role="tab">Write</a>
+                        <a id="newblog" class="list-group-item list-group-item-action" data-toggle="list" href="#write" role="tab">Write</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#search" role="tab">Search</a>
                     </div>
                 </div>
@@ -107,7 +117,7 @@
                 <div class="col-lg-10">
                     <div id="panelList" class="tab-content">
                         <div class="tab-pane card p-3 p-lg-5" id="home" role="tabpanel">
-                            {{ render_homepanel(pageData.blogList, pageData.nextPage) }}
+                            {{ render_homepanel(pageData.blogList, pageData.nextPage, pageData.offsetPos) }}
                         </div>
                         <div class="tab-pane card p-3 p-lg-5" id="write" role="tabpanel">
                             {{ render_writepanel(pageData.objectTags, pageData.tagsList, pageData.manageTagsLink) }}

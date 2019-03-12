@@ -12,7 +12,9 @@ class AboutPageData(PageData):
                 os.path.join('fsdemo/pagedata/md', 'about.md'), 'r'
             ) as f:
                 mdtxt = f.read()
-                self.aboutHtml = markdown.markdown(mdtxt, extensions=['extra'])
+                self.aboutHtml = markdown.markdown(
+                    mdtxt, extensions=['extra', 'nl2br', 'sane_lists', 'toc']
+                )
                 f.close()
         except OSError:
             self.aboutHtml = '<h3>Read \'about.md\' error occurred.</h3>'
@@ -23,7 +25,7 @@ class AboutPageData(PageData):
             ) as f:
                 mdtxt = f.read()
                 self.authorHtml = markdown.markdown(
-                    mdtxt, extensions=['extra']
+                    mdtxt, extensions=['extra', 'nl2br', 'sane_lists', 'toc']
                 )
                 f.close()
         except OSError:

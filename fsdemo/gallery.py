@@ -29,7 +29,7 @@ def gallery_save_tags():
     try:
         tags = request.form.getlist('tags[]')
         tags.reverse()
-        if GTagsMiddleware().save_all_to_db(tags):
+        if GTagsMiddleware().save_all(tags):
             res.resMsg = 'Note: Tags saved successfully.'
         else:
             res.resMsg = 'Note: Failed to save tags.'
@@ -49,16 +49,20 @@ def gallery_do_upload():
             photos = UploadSet('photos', IMAGES)
             configure_uploads(current_app, (photos))
             filename = photos.save(request.files['photo'])
-            gitem = GalleryMiddleware(
+            gflag = GalleryMiddleware().save_one(
                 link=photos.url(filename),
                 tags=request.form.getlist('tags'),
                 caption=request.form['caption']
             )
-            if gitem.save_to_db():
+            if gflag:
                 res.resMsg = 'Note: Photo saved successfully.'
             else:
                 res.resMsg = 'Note: Failed to save photo.'
-            res.data = gitem.outputDict()
+            res.data = {
+                'link': photos.url(filename),
+                'tags': request.form.getlist('tags'),
+                'caption': request.form['caption']
+            }
         except Exception:
             res.resCode = -1
             res.resMsg = 'Error: Upload failed.\n\n' + \

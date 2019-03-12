@@ -37,9 +37,16 @@
 }
 
 /* For Blog pages */
-.custom-blog-search-tag {
+.custom-search-tag {
     cursor: pointer;
 }
-.custom-blog-search-tag:hover span {
+.custom-search-tag:hover span {
     color: darkred;
+}
+
+.custom-search-highlight {
+    font-style: italic;
+    font-size: 1.1em;
+    font: #8d8d8d;
+    background: #fdeda4;
 }
