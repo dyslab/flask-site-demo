@@ -155,6 +155,7 @@ $(document).ready(function() {
     $("a[data-toggle=\"list\"]").on("shown.bs.tab", function (e) {
         if ($(e.target).attr("id") === "newblog") {
             simplemde.codemirror.focus();   // SimpleMDE focus.
+            $("html").scrollTop($("header").height());
         }
     });
 
