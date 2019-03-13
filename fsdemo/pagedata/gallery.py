@@ -3,6 +3,7 @@ from datetime import datetime
 from fsdemo.pagedata.base import PageData
 from fsdemo.models import GTags, Gallery
 from fsdemo.db import db_session
+from fsdemo.basefunc import GetGalleryResponseList, GetYearList
 
 
 # Database Access Middleware: For model 'GTags'.
@@ -73,8 +74,49 @@ class GalleryMiddleware(object):
             pass
         return rflag
 
+    def load_years(self):
+        return_list = []
+        try:
+            gitem = Gallery.query.order_by(
+                Gallery.addtime.asc()
+            ).first()
+            sdate = gitem.addtime
+            gitem = Gallery.query.order_by(
+                Gallery.addtime.asc()
+            ).first()
+            edate = gitem.addtime
+            return_list = GetYearList(sdate, edate)
+        except Exception:
+            pass
+        return return_list
 
-# Generate page data
+    def load_all(self, page=1, off=0, per_page=12):
+        return_list = []
+        if page > 0 and per_page > 0:
+            if (page * per_page + off) < Gallery.query.count():
+                nextpage = page + 1
+            else:
+                nextpage = -1
+            try:
+                pageitems = Gallery.query.order_by(
+                    Gallery.updatetime.desc()
+                ).limit(
+                    per_page
+                ).offset(
+                    (page-1)*per_page+off
+                ).all()
+                return_list = GetGalleryResponseList(pageitems)
+            except Exception:
+                pass
+            print(nextpage)
+        return {
+            'nextpage': nextpage,
+            'offset': off,
+            'photolist': return_list
+        }
+
+
+# Generate page data for 'gallery/upload'
 class GalleryUploadPageData(PageData):
     def __init__(self):
         '''
@@ -84,8 +126,21 @@ class GalleryUploadPageData(PageData):
         self.pageTitle = self.pageTitle + ' / Gallery Upload Page'
         # eg. self.allTagList = ['Tag name #1', 'Tag name #2', 'Tag name #2']
         self.tagsList = GTagsMiddleware().load_all()
-        # eg. self.objectTags = ['Tag name #1', 'Tag name #2']
         self.manageTagsLink = '/gallery/save/tags'
+        # eg. self.objectTags = ['Tag name #1', 'Tag name #2']
         self.objectTags = []
         # eg. self.objectDesc = 'This is the picture description.'
         self.objectDesc = ''
+
+
+# Generate page data for 'gallery/list'
+class GalleryListPageData(PageData):
+    def __init__(self):
+        '''
+            Initialize page data.
+        '''
+        PageData.__init__(self)
+        self.pageTitle = self.pageTitle + ' / Gallery List Page'
+        # eg. self.allTagList = ['Tag name #1', 'Tag name #2', 'Tag name #2']
+        self.tagsList = GTagsMiddleware().load_all()
+        self.yearList = GalleryMiddleware().load_years()

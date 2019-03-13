@@ -15,7 +15,10 @@ class Config(object):
     DATABASE_URI = 'sqlite:///' + \
         os.path.join(os.getcwd(), DATABASE_DEST, DATABASE_FILENAME)
 
-    # Upload configuration
+    # Gallery configuration
+    GALLERY_PER_PAGE = 18
+
+    # Gallery Upload configuration
     UPLOADS_DEFAULT_DEST = 'fsdemo/static/uploadfiles'
     UPLOADS_DEFAULT_URL = '/gallery/show/uploadfiles'
     # Limited size of upload file is 10MB.

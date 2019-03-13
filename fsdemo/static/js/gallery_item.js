@@ -4,7 +4,6 @@ $(document).ready(function() {
     // Init form upload file elements.
     bsCustomFileInput.init();
     resetFormFile($("#photo"), $(".custom-file-label"));
-    var defaultResponse = $("#response").html();
 
     // Validate upload file extension.
     function isValidFileExtension(filename) {

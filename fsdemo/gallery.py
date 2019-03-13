@@ -1,9 +1,9 @@
 from flask import Blueprint, request, redirect, render_template
 from flask import url_for, current_app
 from flask_uploads import UploadSet, IMAGES, configure_uploads
-from fsdemo.pagedata.gallery import GalleryUploadPageData
-from fsdemo.response import JsonResponse
+from fsdemo.pagedata.gallery import GalleryUploadPageData, GalleryListPageData
 from fsdemo.pagedata.gallery import GTagsMiddleware, GalleryMiddleware
+from fsdemo.response import JsonResponse
 
 gallery_page = Blueprint(
     'gallery',
@@ -11,6 +11,11 @@ gallery_page = Blueprint(
     static_folder='static',
     template_folder='templates'
 )
+
+
+@gallery_page.route('/', methods=['GET', 'POST'])
+def gallery_index():
+    return redirect(url_for('.gallery_list'))
 
 
 @gallery_page.route('/upload', methods=['GET', 'POST'])
@@ -33,9 +38,9 @@ def gallery_save_tags():
             res.resMsg = 'Note: Tags saved successfully.'
         else:
             res.resMsg = 'Note: Failed to save tags.'
-    except Exception as e:
+    except Exception:
         res.resCode = -1
-        res.resMsg = e.args.__name__
+        res.resMsg = "Network error occurred."
         pass
     return res.outputJsonString()
 
@@ -80,3 +85,52 @@ def gallery_do_upload():
 @gallery_page.route('/show/<path:fullpath>', methods=['GET'])
 def gallery_show_uploadfiles(fullpath):
     return redirect(url_for('static', filename=fullpath))
+
+
+@gallery_page.route('/list', methods=['GET', 'POST'])
+def gallery_list():
+    return render_template(
+        'gallery_list.html',
+        pageData=GalleryListPageData()
+    )
+
+
+@gallery_page.route('/list/photos', methods=['POST'])
+def gallery_list_photos():
+    res = JsonResponse()
+    try:
+        keyword = request.form['keyword']
+        if keyword == 'ALL':
+            glist = GalleryMiddleware().load_all(
+                int(request.form['page']),
+                int(request.form['offset']),
+                current_app.config['GALLERY_PER_PAGE'],
+            )
+        elif keyword == 'TAG':
+            glist = GalleryMiddleware().load_by_tag(
+                int(request.form['page']),
+                int(request.form['offset']),
+                current_app.config['GALLERY_PER_PAGE'],
+                request.form['tag']
+            )
+        elif keyword == 'YEAR':
+            glist = GalleryMiddleware().load_by_year(
+                int(request.form['page']),
+                int(request.form['offset']),
+                current_app.config['GALLERY_PER_PAGE'],
+                request.form['year']
+            )
+        else:
+            glist = None
+        if glist is not None:
+            res.resMsg = 'Note: Gallery loaded successfully.'
+        else:
+            res.resMsg = 'Note: Failed to load gallery.'
+        res.data = glist
+    except Exception:
+        res.resCode = -1
+        res.resMsg = "Network error occurred."
+        pass
+    return res.outputJsonString()
+
+    return

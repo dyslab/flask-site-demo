@@ -1,6 +1,10 @@
 from datetime import datetime
+import json
+import markdown
 
 
+# Used by the following functions:
+#   ConvertTimesDiff()
 def GetDurationString(duration=0):
     dlist = [
         [365 * 24 * 60 * 60, ' year'],
@@ -22,6 +26,8 @@ def GetDurationString(duration=0):
     return duration_str
 
 
+# Used by the following functions:
+#   GetBlogResponseList()/GetGalleryResponseList()
 def ConvertTimesDiff(base_time=datetime.now(), dest_time=datetime.now()):
     # print(base_time, dest_time)  # print for test
     timed = dest_time - base_time
@@ -39,16 +45,8 @@ def ConvertTimesDiff(base_time=datetime.now(), dest_time=datetime.now()):
     return duration_str + durationsuffix
 
 
-def StringToArrayWithoutSpace(str):
-    retarr = []
-    if str != '':
-        arr = str.split(' ')
-        for a in arr:
-            if a != '':
-                retarr.append(a)
-    return retarr
-
-
+# Used by the following functions:
+#   GetBlogResponseList()
 def HighlightSearchTerms(content, terms):
     up_content = content.upper()
     for term in terms:
@@ -63,3 +61,69 @@ def HighlightSearchTerms(content, terms):
             )
             break
     return content
+
+
+# User by blog.search
+def StringToArrayWithoutSpace(str):
+    retarr = []
+    if str != '':
+        arr = str.split(' ')
+        for a in arr:
+            if a != '':
+                retarr.append(a)
+    return retarr
+
+
+# Used by blog.load / search
+def GetBlogResponseList(items=[], highlight_terms=None):
+    if highlight_terms is not None:
+        return [{
+            'id': item.id,
+            'title': HighlightSearchTerms(
+                item.title, highlight_terms
+            ),
+            'time': ConvertTimesDiff(
+                base_time=datetime.now(),
+                dest_time=item.updatetime
+            ),
+            'tags': json.loads(item.tags),
+            'content':  markdown.markdown(
+                HighlightSearchTerms(item.content, highlight_terms),
+                extensions=['extra', 'nl2br', 'toc']
+            )
+        } for item in items]
+    else:
+        return [{
+            'id': item.id,
+            'title': item.title,
+            'time': ConvertTimesDiff(
+                base_time=datetime.now(),
+                dest_time=item.updatetime
+            ),
+            'tags': json.loads(item.tags),
+            'content':  markdown.markdown(
+                item.content,
+                extensions=['extra', 'nl2br', 'toc']
+            )
+        } for item in items]
+
+
+# Used by gallery.load
+def GetGalleryResponseList(items=[]):
+    return [{
+        'id': item.id,
+        'link': item.link,
+        'time': ConvertTimesDiff(
+            base_time=datetime.now(),
+            dest_time=item.updatetime
+        ),
+        'tags': json.loads(item.tags),
+        'caption': item.caption
+    } for item in items]
+
+
+# Used by gallery.load
+def GetYearList(startdate=0, enddate=0):
+    startyear = startdate.year
+    endyear = enddate.year
+    return [y for y in range(startyear, endyear + 1)]

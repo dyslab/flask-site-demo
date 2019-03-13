@@ -2,12 +2,10 @@ from datetime import datetime
 from flask import current_app
 from sqlalchemy import or_
 from fsdemo.pagedata.base import PageData
-from fsdemo.basefunc import ConvertTimesDiff, StringToArrayWithoutSpace
-from fsdemo.basefunc import HighlightSearchTerms
+from fsdemo.basefunc import StringToArrayWithoutSpace, GetBlogResponseList
 from fsdemo.models import BTags, Blog
 from fsdemo.db import db_session
 import json
-import markdown
 
 
 # Database Access Middleware: For model 'BTags'.
@@ -130,19 +128,7 @@ class BlogMiddleware(object):
                 pageitems = Blog.query.order_by(
                     Blog.updatetime.desc()
                 ).limit(per_page).offset((page-1)*per_page+off).all()
-                return_list = [{
-                    'id': pitem.id,
-                    'title': pitem.title,
-                    'time': ConvertTimesDiff(
-                        base_time=datetime.now(),
-                        dest_time=pitem.updatetime
-                    ),
-                    'tags': json.loads(pitem.tags),
-                    'content':  markdown.markdown(
-                        pitem.content,
-                        extensions=['extra', 'nl2br', 'toc']
-                    )
-                } for pitem in pageitems]
+                return_list = GetBlogResponseList(pageitems)
             except Exception:
                 pass
         return {
@@ -183,19 +169,7 @@ class BlogMiddleware(object):
                 ).offset(
                     (page-1)*per_page+off
                 ).all()
-                return_list = [{
-                    'id': pitem.id,
-                    'title': HighlightSearchTerms(pitem.title, terms_1),
-                    'time': ConvertTimesDiff(
-                        base_time=datetime.now(),
-                        dest_time=pitem.updatetime
-                    ),
-                    'tags': json.loads(pitem.tags),
-                    'content':  markdown.markdown(
-                        HighlightSearchTerms(pitem.content, terms_1),
-                        extensions=['extra', 'nl2br', 'toc']
-                    )
-                } for pitem in pageitems]
+                return_list = GetBlogResponseList(pageitems, terms_1)
                 search_count = Blog.query.order_by(
                     Blog.updatetime.desc()
                 ).filter(

@@ -25,9 +25,9 @@ def blog_save_tags():
             res.resMsg = 'Note: Tags saved successfully.'
         else:
             res.resMsg = 'Note: Failed to save tags.'
-    except Exception as e:
+    except Exception:
         res.resCode = -1
-        res.resMsg = e.args.__name__
+        res.resMsg = "Network error occurred."
         pass
     return res.outputJsonString()
 
