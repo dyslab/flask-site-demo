@@ -12,6 +12,7 @@
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     <form id="uploadform" method="POST" enctype="multipart/form-data" class="needs-validation">
+                        <input type="hidden" id="photoid" value="{{ pageData.objectID }}">
                         {% if action|upper == 'UPLOAD' %}
                             <div class="custom-file mb-4">
                                 <input type="file" class="custom-file-input" name="photo" id="photo" required oninvalid="setCustomValidity('Choose a file at first.')" oninput="setCustomValidity('')">
@@ -37,7 +38,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card">
                         <div id="response" class="card-body">
-                           <img class="img-fluid" src="{{ url_for('static', filename='imgs/whatisit.svg') }}">
+                           <img class="img-fluid" src="{{ pageData.objectPhotoLink }}">
                         </div>
                     </div>
                 </div>

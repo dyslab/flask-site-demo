@@ -76,7 +76,7 @@ class BlogMiddleware(object):
             pass
         return rflag
 
-    def load_by_id(self, id):
+    def load_by_id(self, id=0):
         if id > 0:
             bitem = Blog.query.filter_by(id=id).first()
             if bitem is not None:

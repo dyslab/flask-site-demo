@@ -130,7 +130,7 @@ $(document).ready(function() {
         }
     }
 
-    // Write Tab: Set blog's write tab data.
+    // Write Tab: Set blog's EDIT flag and object info.
     function SetWriteTabBlogData(data) {
         if (data !== undefined) {
             $("span#action").text("EDIT");

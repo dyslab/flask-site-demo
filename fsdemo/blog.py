@@ -22,7 +22,7 @@ def blog_save_tags():
         tags = request.form.getlist('tags[]')
         tags.reverse()
         if BTagsMiddleware().save_all(tags):
-            res.resMsg = 'Note: Tags saved successfully.'
+            res.resMsg = 'Note: Saved tags successfully.'
         else:
             res.resMsg = 'Note: Failed to save tags.'
     except Exception:
@@ -42,7 +42,7 @@ def blog_new():
             content=request.form['blogcontent']
         )
         if bflag:
-            res.resMsg = 'Note: New blog saved successfully.'
+            res.resMsg = 'Note: New blog was saved successfully.'
         else:
             res.resMsg = 'Note: Failed to save the blog.'
     except Exception:
@@ -76,7 +76,7 @@ def blog_delete(id):
     try:
         bflag = BlogMiddleware().delete_by_id(id=id)
         if bflag:
-            res.resMsg = 'Note: Blog deleted successfully.'
+            res.resMsg = 'Note: Deleted blog successfully.'
         else:
             res.resMsg = 'Note: Failed to delete the blog.'
     except Exception:
@@ -99,9 +99,9 @@ def blog_edit_save():
             content=request.form['blogcontent']
         )
         if bflag:
-            res.resMsg = 'Note: Blog saved successfully.'
+            res.resMsg = 'Note: Saved changes successfully.'
         else:
-            res.resMsg = 'Note: Failed to edit the blog.'
+            res.resMsg = 'Note: Failed to save the changes.'
     except Exception:
         res.resCode = -1
         res.resMsg = 'Error: Network failed.' + \

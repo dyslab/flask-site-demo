@@ -24,10 +24,11 @@ $(document).ready(function() {
     // Set response content.
     function setResponse(msg, data) {
         $("#response").children().remove();
-        insertHTML = "<div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\"><strong>" +
+        insertHTML = "<div class=\"alert alert-warning alert-dismissible mb-3 fade show\" role=\"alert\"><strong>" +
             msg + "</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">" +
             "<span aria-hidden=\"true\">&times;</span></button></div>";
-        insertHTML += "<div><figure class=\"figure\"><img src=\"" +
+        $("#response").append($(insertHTML).delay(2000).fadeOut(500));
+        insertHTML = "<div><figure class=\"figure\"><img src=\"" +
             data.link + "\" class=\"figure-img img-fluid rounded\" alt=\"" +
             data.link + "\"><figcaption class=\"figure-caption\">" +
             data.caption + "</figcaption></figure></div>"
@@ -54,26 +55,43 @@ $(document).ready(function() {
     // Ajax upload file.
     $("#uploadform").submit(function(event) {
         event.preventDefault();
+        var photoid = parseInt($("input#photoid").val());
 
-        var formData = new FormData($(this)[0]);
-        $.ajax({
-            url: "/gallery/do/upload",
-            type: "POST",
-            data: formData,
-            async: true, // false,
-            cache: false,
-            contentType: false,
-            processData: false,
-        }).done(function(data) {
-            resObj = JSON.parse(data);
-            if (resObj.resCode === 0) {
-                setResponse(resObj.resMsg, resObj.data);
-            } else {
-                alert(resObj.resMsg);
-            }
-            resetFormFile($("#photo"), $(".custom-file-label"));
-        }).fail(function(err) {
-            alert(err);
-        });
+        if (photoid > 0) {
+            // Edit save process.
+            $.post('/gallery/edit/save/' + photoid, $(this).serialize()).done(function(data) {
+                resObj = JSON.parse(data);
+                if (resObj.resCode === 0) {
+                    insertHTML = "<div class=\"alert alert-warning alert-dismissible mt-3 fade show\" role=\"alert\"><strong>" +
+                        resObj.resMsg + "</strong><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">" +
+                        "<span aria-hidden=\"true\">&times;</span></button></div>";
+                    $("#response").append($(insertHTML).delay(2000).fadeOut(500));
+                } else {
+                    alert(resObj.resMsg);
+                }
+            });
+        } else {
+            // Upload process.
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: "/gallery/do/upload",
+                type: "POST",
+                data: formData,
+                async: true, // false,
+                cache: false,
+                contentType: false,
+                processData: false,
+            }).done(function(data) {
+                resObj = JSON.parse(data);
+                if (resObj.resCode === 0) {
+                    setResponse(resObj.resMsg, resObj.data);
+                } else {
+                    alert(resObj.resMsg);
+                }
+                resetFormFile($("#photo"), $(".custom-file-label"));
+            }).fail(function(err) {
+                alert(err);
+            });
+        }
     });
 });

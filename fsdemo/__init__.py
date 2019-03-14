@@ -27,12 +27,12 @@ def InitApp(app):
         os.makedirs(
             os.path.join(
                 os.getcwd(),
-                app.config['UPLOADS_DEFAULT_DEST']
+                app.config['UPLOADED_PHOTOS_DEST']
             )
         )
     except OSError:
         pass
-    print(' * Folder [%s] created.' % app.config['UPLOADS_DEFAULT_DEST'])
+    print(' * Folder [%s] created.' % app.config['UPLOADED_PHOTOS_DEST'])
 
     try:
         os.makedirs(os.path.join(os.getcwd(), app.config['DATABASE_DEST']))

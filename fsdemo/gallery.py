@@ -2,6 +2,7 @@ from flask import Blueprint, request, redirect, render_template
 from flask import url_for, current_app
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from fsdemo.pagedata.gallery import GalleryUploadPageData, GalleryListPageData
+from fsdemo.pagedata.gallery import GalleryEditPageData
 from fsdemo.pagedata.gallery import GTagsMiddleware, GalleryMiddleware
 from fsdemo.response import JsonResponse
 
@@ -118,7 +119,7 @@ def gallery_list_photos():
                 int(request.form['page']),
                 int(request.form['offset']),
                 current_app.config['GALLERY_PER_PAGE'],
-                request.form['year']
+                int(request.form['year'])
             )
         else:
             glist = None
@@ -134,3 +135,58 @@ def gallery_list_photos():
     return res.outputJsonString()
 
     return
+
+
+@gallery_page.route('/download/<int:id>', methods=['GET'])
+def gallery_download(id):
+    return GalleryMiddleware().downloadByID(id)
+
+
+@gallery_page.route('/delete/<int:id>', methods=['GET'])
+def gallery_delete(id):
+    res = JsonResponse()
+    try:
+        gflag = GalleryMiddleware().delete_by_id(id)
+        if gflag:
+            res.resMsg = 'Note: Deleted photo successfully.'
+        else:
+            res.resCode = -1
+            res.resMsg = 'Note: Failed to delete the photo.'
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString())  # Print for test.
+    return res.outputJsonString()
+
+
+@gallery_page.route('/edit/<int:id>', methods=['GET'])
+def gallery_edit(id):
+    return render_template(
+        'gallery_item.html',
+        action='EDIT',
+        pageData=GalleryEditPageData(id)
+    )
+
+
+@gallery_page.route('/edit/save/<int:id>', methods=['POST'])
+def gallery_edit_save(id):
+    res = JsonResponse()
+    try:
+        bflag = GalleryMiddleware().save_by_id(
+            id=id,
+            tags=request.form.getlist('tags'),
+            caption=request.form['caption']
+        )
+        if bflag:
+            res.resMsg = 'Note: Saved changes successfully.'
+        else:
+            res.resMsg = 'Note: Failed to save the changes.'
+    except Exception:
+        res.resCode = -1
+        res.resMsg = 'Error: Network failed.' + \
+            ' Check your network connection please.'
+        pass
+    # print(res.outputJsonString()) # Print for test.
+    return res.outputJsonString()
