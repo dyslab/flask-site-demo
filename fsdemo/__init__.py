@@ -2,6 +2,8 @@ import os
 from flask import Flask
 from fsdemo.db import db_session
 
+name = "fsdemo"
+
 
 def create_app():
     app = Flask(__name__)
