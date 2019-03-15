@@ -70,7 +70,7 @@ $(document).ready(function() {
     function appendBlog(blogdata) {
         for (id=0; id<blogdata.bloglist.length; id++) {
             insertHTML = "<div class=\"blog-wrap\">" +
-                "<hr class=\"mt-3 mb-3 mt-lg-5 mb-lg-5\">";
+                "<hr class=\"mt-3 mb-3 mt-lg-5 mb-lg-5 hr-separator\">";
             insertHTML += "<div class=\"custom-blog-title mb-4\">" +
                 "<span class=\"h3\">" +
                 blogdata.bloglist[id].title + "</span><small><a href=\"" + 
@@ -251,7 +251,7 @@ $(document).ready(function() {
         // Append blogs
         for (id=0; id<blogdata.bloglist.length; id++) {
             insertHTML = "<div class=\"custom-search-blog-wrap\">" +
-                "<hr class=\"mt-3 mb-3 mt-lg-5 mb-lg-5\">";
+                "<hr class=\"mt-3 mb-3 mt-lg-5 mb-lg-5 hr-separator\">";
             insertHTML += "<div class=\"custom-blog-title mb-4\">" +
                 "<span class=\"h3\">" +
                 blogdata.bloglist[id].title + "</span><small><a href=\"" + 

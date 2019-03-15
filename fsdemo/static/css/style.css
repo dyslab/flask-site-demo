@@ -1,3 +1,8 @@
+/* Keep SimpleMDE - Markdown Editor a static height */
+.CodeMirror {
+	height: 500px;
+}
+
 /* For Markdown html content */
 .fsdemo-markdown h1, h2, h3, h4, h5 {
     line-height: 3.25rem;
@@ -9,6 +14,21 @@
 .fsdemo-markdown table, th, td {
     padding: 0.25rem;
     border: 1px solid #a1a1a1;
+}
+
+/* Stylish Markdown output */
+.custom-blog-content pre {
+    padding: 20px;
+    background: rgb(240, 240, 240);
+}
+.custom-blog-content img {
+	max-width:95%;
+	margin: 10px 0px;
+}
+.custom-blog-content blockquote {
+    font-style: italic;
+    color: #424242;
+    margin: 10px 0px;
 }
 
 /* For Footer copyright info */
