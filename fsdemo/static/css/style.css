@@ -1,6 +1,7 @@
 /* Keep SimpleMDE - Markdown Editor a static height */
-.CodeMirror {
-	height: 500px;
+.CodeMirror.CodeMirror, .CodeMirror-scroll {
+    min-height: 350px;
+    max-height: 500px;
 }
 
 /* For Markdown html content */
