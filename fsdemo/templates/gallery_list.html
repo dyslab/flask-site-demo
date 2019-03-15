@@ -1,6 +1,7 @@
 {% extends "layout/layout.html" %}
 
 {% block header_scripts %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cdn/magnific-popup.css') }}">
 {% endblock %}
 {% block content %}
     <section class="p-0 bg-light">
@@ -58,5 +59,6 @@
     </section>
 {% endblock %}
 {% block footer_scripts %}
+    <script src="{{ url_for('static', filename='js/cdn/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/gallery_list.js') }}"></script>
 {% endblock %}

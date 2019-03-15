@@ -1,68 +1,57 @@
 {% extends "layout/layout.html" %}
 
 {% block header_scripts %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cdn/magnific-popup.css') }}">
 {% endblock %}
 {% block content %}
     <section class="p-0 bg-light">
         <div class="container p-3 p-lg-5" style="min-height:580px;">
             <div class="row">
                 {% autoescape false %}
-                    <div class="col-lg-5 fsdemo-markdown">
+                    <div class="col-lg-4 fsdemo-markdown">
                         <h3>Latest Gallery</h3>
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action active">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">List group item heading</h5>
-                                    <small>3 days ago</small>
-                                </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small>Donec id elit non mi porta.</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">List group item heading</h5>
-                                    <small class="text-muted">3 days ago</small>
-                                </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small class="text-muted">Donec id elit non mi porta.</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">List group item heading</h5>
-                                    <small class="text-muted">3 days ago</small>
-                                </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small class="text-muted">Donec id elit non mi porta.</small>
-                            </a>
+                            {% for gitem in pageData.galleryList.photolist %}
+                                <span class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <ul class="list-inline mb-2">
+                                            {% for gitem_tag in gitem.tags %}
+                                                <li class="list-inline-item">
+                                                    <span class="badge badge-primary">{{ gitem_tag }}</span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <small>{{ gitem.time }}</small>
+                                    </div>
+                                    <p class="mb-1">
+                                        <a class="mfp-image-popup-zoom" href="{{ gitem.link }}">
+                                            <img class="img-fluid" src="{{ gitem.link }}">
+                                        </a>
+                                    </p>
+                                    <small class="text-muted">{{ gitem.caption }}</small>
+                                </span>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="col-lg-7 fsdemo-markdown">
+                    <div class="col-lg-8 fsdemo-markdown">
                         <h3>Latest Blog</h3>
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action active">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">List group item heading</h5>
-                                    <small>3 days ago</small>
-                                </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small>Donec id elit non mi porta.</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">List group item heading</h5>
-                                    <small class="text-muted">3 days ago</small>
-                                </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small class="text-muted">Donec id elit non mi porta.</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">List group item heading</h5>
-                                    <small class="text-muted">3 days ago</small>
-                                </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small class="text-muted">Donec id elit non mi porta.</small>
-                            </a>
+                            {% for bitem in pageData.blogList.bloglist %}
+                                <span class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ bitem.title }}</h5>
+                                        <small>{{ bitem.time }}</small>
+                                    </div>
+                                    <ul class="list-inline mb-2">
+                                        {% for bitem_tag in bitem.tags %}
+                                            <li class="list-inline-item">
+                                                <span class="badge badge-primary">{{ bitem_tag }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <p class="mb-1">{{ bitem.content }}</p>
+                                </span>
+                            {% endfor %}
                         </div>
                     </div>
                 {% endautoescape %}
@@ -71,5 +60,6 @@
     </section>
 {% endblock %}
 {% block footer_scripts %}
+    <script src="{{ url_for('static', filename='js/cdn/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

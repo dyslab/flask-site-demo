@@ -24,8 +24,10 @@ $(document).ready(function() {
                 data.photolist[id].link + "\" data-clipboard-target=\"page\"><small>Link</small></a></li>";
             insertHTML += "</ul></div>";
             // Insert image and its caption.
-            insertHTML += "<figure class=\"figure\"><img class=\"figure-img img-fluid rounded\" src=\"" +
-            data.photolist[id].link + "\"></img><figcaption class=\"figure-caption\">" +
+            insertHTML += "<figure class=\"figure\"><a class=\"mfp-image-popup-zoom\" href=\"" +
+            data.photolist[id].link + "\" title=\"" +
+            data.photolist[id].caption + "\"><img class=\"figure-img img-fluid rounded\" src=\"" +
+            data.photolist[id].link + "\"></img></a><figcaption class=\"figure-caption\">" +
             data.photolist[id].caption + "</figcaption></figure>";
             // Insert time and tags.
             insertHTML += "<div><ul class=\"list-inline\">";
@@ -52,6 +54,22 @@ $(document).ready(function() {
                 "<button id=\"custom-photos-loadmore\" class=\"btn btn-success\">Load More ...</button></div>";
             $("div.custom-photos-container").append($(insertHTML));
         }
+
+        // Init Magnific Popup.
+        $('.mfp-image-popup-zoom').magnificPopup({
+            type: 'image',
+            closeOnContentClick: true,
+            closeBtnInside: false,
+            fixedContentPos: true,
+            mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+            image: {
+            verticalFit: true
+            },
+            zoom: {
+            enabled: true,
+            duration: 300 // don't foget to change the duration also in CSS
+            }
+        });
     }
     
     // Initialize photos when the navlink clicked.
