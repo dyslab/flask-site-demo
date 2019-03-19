@@ -25,10 +25,10 @@ $(document).ready(function() {
             insertHTML += "</ul></div>";
             // Insert image and its caption.
             insertHTML += "<figure class=\"figure\"><a class=\"mfp-image-popup-zoom\" href=\"" +
-            data.photolist[id].link + "\" title=\"" +
-            data.photolist[id].caption + "\"><img class=\"figure-img img-fluid rounded\" src=\"" +
-            data.photolist[id].link + "\"></img></a><figcaption class=\"figure-caption\">" +
-            data.photolist[id].caption + "</figcaption></figure>";
+                data.photolist[id].link + "\" title=\"" +
+                encodeURI(data.photolist[id].caption) + "\"><img class=\"figure-img img-fluid rounded\" src=\"" +
+                data.photolist[id].link + "\"></img></a><figcaption class=\"figure-caption\">" +
+                data.photolist[id].caption + "</figcaption></figure>";
             // Insert time and tags.
             insertHTML += "<div><ul class=\"list-inline\">";
             insertHTML += "<li class=\"list-inline-item text-muted font-italic\"><small>" +
@@ -63,11 +63,11 @@ $(document).ready(function() {
             fixedContentPos: true,
             mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
             image: {
-            verticalFit: true
+                verticalFit: true
             },
             zoom: {
-            enabled: true,
-            duration: 300 // don't foget to change the duration also in CSS
+                enabled: true,
+                duration: 300 // don't foget to change the duration also in CSS
             }
         });
     }
