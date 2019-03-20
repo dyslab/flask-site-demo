@@ -14,15 +14,9 @@ Deactivate virtual environment command lines:
 
 `$ deactivate`
 
-Test the demo website:
-```
-$ . venv/bin/activate
-$ ./webstart
-```
-(Note: Use `chmod a+x ./webstart` to modify the shell file to be executable.)
-Then, ckeck out http://127.0.0.1:5000/ in browser.
 
 **Development OS information:**
+
 
 - Dev OS: Ubuntu 18.10
 - Coding tool: Visual Studio Code
@@ -70,3 +64,16 @@ Then, ckeck out http://127.0.0.1:5000/ in browser.
 | typed-ast | 1.3.1 |
 | Werkzeug | 0.14.1 |
 | wrapt | 1.11.1 |
+
+
+***
+
+Test this demo website:
+```
+$ . venv/bin/activate
+$ ./webstart
+```
+(Note: Use `chmod a+x ./webstart` to modify the shell file to be executable.)
+Then, ckeck out http://127.0.0.1:5000/ in browser.
+
+***
