@@ -18,6 +18,11 @@
 }
 
 /* Stylish Markdown output */
+.custom-blog-content code {
+    padding: 3px 15px;
+    color: black;
+    background: rgb(240, 240, 240);
+}
 .custom-blog-content pre {
     padding: 20px;
     background: rgb(240, 240, 240);

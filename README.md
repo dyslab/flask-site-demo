@@ -14,6 +14,13 @@ Deactivate virtual environment command lines:
 
 `$ deactivate`
 
+Test the demo website:
+```
+$ . venv/bin/activate
+$ ./webstart
+```
+(Note: Use `chmod a+x ./webstart` to modify the shell file to be executable.)
+Then, ckeck out http://127.0.0.1:5000/ in browser.
 
 **Development OS information:**
 
