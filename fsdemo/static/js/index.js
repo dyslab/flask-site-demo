@@ -9,11 +9,14 @@ $(document).ready(function() {
         fixedContentPos: true,
         mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
         image: {
-        verticalFit: true
+            verticalFit: true
         },
         zoom: {
-        enabled: true,
-        duration: 300 // don't foget to change the duration also in CSS
+            enabled: true,
+            duration: 300 // don't foget to change the duration also in CSS
+        },
+        gallery: {
+            enabled: true
         }
     });
 });

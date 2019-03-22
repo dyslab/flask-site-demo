@@ -11,6 +11,11 @@ $(document).ready(function() {
         $("div.custom-photos-container").append($(insertHTML));
     }
 
+    // Encode HTML String.
+    function encodeHTML(str) {
+        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g,"'");
+    }
+
     // Append photos in container 'div.custom-phots-container'.
     function appendPhotos(data) {
         for (id in data.photolist) {
@@ -26,7 +31,8 @@ $(document).ready(function() {
             // Insert image and its caption.
             insertHTML += "<figure class=\"figure\"><a class=\"mfp-image-popup-zoom\" href=\"" +
                 data.photolist[id].link + "\" title=\"" +
-                encodeURI(data.photolist[id].caption) + "\"><img class=\"figure-img img-fluid rounded\" src=\"" +
+                encodeHTML(data.photolist[id].caption) +
+                "\"><img class=\"figure-img img-fluid rounded\" src=\"" +
                 data.photolist[id].link + "\"></img></a><figcaption class=\"figure-caption\">" +
                 data.photolist[id].caption + "</figcaption></figure>";
             // Insert time and tags.
@@ -68,6 +74,9 @@ $(document).ready(function() {
             zoom: {
                 enabled: true,
                 duration: 300 // don't foget to change the duration also in CSS
+            },
+            gallery: {
+                enabled: true
             }
         });
     }
