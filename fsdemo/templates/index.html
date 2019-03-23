@@ -21,7 +21,7 @@
                                                 </li>
                                             {% endfor %}
                                         </ul>
-                                        <small>{{ gitem.time }}</small>
+                                        <small class="custom-singleline">{{ gitem.time }}</small>
                                     </div>
                                     <p class="mb-1">
                                         <a class="mfp-image-popup-zoom" href="{{ gitem.link }}">
@@ -42,17 +42,17 @@
                             {% for bitem in pageData.blogList.bloglist %}
                                 <span class="list-group-item">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ bitem.title }}</h5>
-                                        <small>{{ bitem.time }}</small>
+                                        <span class="h5 mt-4 mb-4 custom-blog-content">{{ bitem.title }}</span>
+                                        <small class="custom-singleline">{{ bitem.time }}</small>
                                     </div>
-                                    <ul class="list-inline mb-2">
+                                    <ul class="list-inline">
                                         {% for bitem_tag in bitem.tags %}
                                             <li class="list-inline-item">
-                                                <span class="badge badge-primary">{{ bitem_tag }}</span>
+                                                <span class="badge badge-pill badge-warning">{{ bitem_tag }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
-                                    <div class="mt-1 mb-1 custom-blog-content">{{ bitem.content }}</div>
+                                    <div class="mt-4 mb-4 custom-blog-content">{{ bitem.content }}</div>
                                 </span>
                             {% endfor %}
                         </div>

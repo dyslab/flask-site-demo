@@ -43,10 +43,11 @@
 /* Stylish Markdown output */
 .custom-blog-content {
     font-family: 'open_sansregular', 'montserrat_alternatesregular', 'montserrat_alternateslight';
+    line-height: 2rem;
 }
 .custom-blog-content ul,
 .custom-blog-content ol {
-    line-height: 2rem;
+    line-height: 2.25rem;
 }
 .custom-blog-content ul code,
 .custom-blog-content ol code,
@@ -72,6 +73,11 @@
 /* For Footer copyright info */
 .fsdemo-copyright {
     color: gray;
+}
+
+/* For Index time info */
+.custom-singleline {
+    white-space: nowrap;
 }
 
 /* For ExcelJson pages input text */
