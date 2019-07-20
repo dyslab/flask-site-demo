@@ -65,4 +65,9 @@ $ pip install sqlalchemy
 $ pip install flask_uploads
 $ pip install markdown
 $ pip install pyexcel_xlsx
+$ pip install bumpversion       // Optional
 ```
+
+Note: 
+
+*bumpversion* used for development, The CLI 'bumpversion patch' will upgrade patch version and commit automatically.
