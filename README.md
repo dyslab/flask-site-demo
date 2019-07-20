@@ -2,78 +2,67 @@
 
 A learning demostration site for Python Flask framework.
 
-Install Python virtual environment command lines:
+Running Website:
 
-`$ python3 -m venv venv`
-
-Activate virtual environment command lines:
-
-`$ source venv/bin/activate` or `$ . venv/bin/activate`
-
-Deactivate virtual environment command lines:
-
-`$ deactivate`
-
-
-**Development OS information:**
-
-
-- Dev OS: Ubuntu 18.10
-- Coding tool: Visual Studio Code
-- Python version: 3.6.7
-
-
-**Installed packages list:**
-
-| Package Name | Version |
-|------|------|
-| astroid | 2.1.0 |
-| Click | 7.0 |
-| et-xmlfile | 1.0.1 |
-| Flask | 1.0.2 |
-| astroid | 2.1.0 |
-| bumpversion | 0.5.3 |
-| Click | 7.0 |
-| et-xmlfile | 1.0.1 |
-| Flask | 1.0.2 |
-| Flask-SQLAlchemy | 2.3.2 |
-| Flask-Uploads | 0.2.1 |
-| isort | 4.3.4 |
-| itsdangerous | 1.1.0 |
-| jdcal | 1.4 |
-| Jinja2 | 2.10 |
-| lazy-object-proxy | 1.3.1 |
-| lml | 0.0.9 |
-| Markdown | 3.0.1 |
-| MarkupSafe | 1.1.0 |
-| mccabe | 0.6.1 |
-| openpyxl | 2.6.0 |
-| pip | 9.0.1 |
-| pkg-resources | 0.0.0 |
-| pycodestyle | 2.5.0 |
-| pydocstyle | 3.0.0 |
-| pyexcel-io | 0.5.14 |
-| pyexcel-xlsx | 0.5.7 |
-| pyflakes | 2.1.1 |
-| pylama | 7.6.6 |
-| pylint | 2.2.2 |
-| setuptools | 40.8.0 |
-| six | 1.12.0 |
-| snowballstemmer | 1.2.1 |
-| SQLAlchemy | 1.3.0 |
-| typed-ast | 1.3.1 |
-| Werkzeug | 0.14.1 |
-| wrapt | 1.11.1 |
-
-
-***
-
-Test this demo website:
 ```
 $ . venv/bin/activate
 $ ./webstart
 ```
-(Note: Use `chmod a+x ./webstart` to modify the shell file to be executable.)
+
+(Note: Use `chmod a+x ./webstart` to ignite the shell file to be executable.)
+
 Then, ckeck out http://127.0.0.1:5000/ in browser.
 
+
+
+### Development & Tested OS information:
+
+- OS: Ubuntu 18.10 / 19.04
+
+- Coding tool: Visual Studio Code
+
+- Python version (virtual environment): 3.6.7 / 3.7.3
+
+
+
 ***
+
+### Tips before first running
+
+Tips 1: Install Python virtual environment:
+
+```
+$ python3 -m venv venv
+```
+
+Activate virtual environment:
+
+```
+$ source venv/bin/activate` or `$ . venv/bin/activate
+```
+
+Deactivate virtual environment:
+
+```
+$ deactivate
+```
+
+
+Tips 2: Install pip (For virtual environment):
+
+```
+$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # Download installation script.
+$ sudo python get-pip.py    # Run script.
+
+```
+
+
+Tips 3: Install Python Prerequisite Packages: 
+
+```
+$ pip install flask
+$ pip install sqlalchemy
+$ pip install flask_uploads
+$ pip install markdown
+$ pip install pyexcel_xlsx
+```
