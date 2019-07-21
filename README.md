@@ -27,9 +27,11 @@ Then, ckeck out http://127.0.0.1:5000/ in browser.
 
 ***
 
+
 ### Tips before first running
 
-Tips 1: Install Python virtual environment:
+
+**1. Install Python virtual environment:**
 
 ```
 $ python3 -m venv venv
@@ -38,7 +40,11 @@ $ python3 -m venv venv
 Activate virtual environment:
 
 ```
-$ source venv/bin/activate` or `$ . venv/bin/activate
+$ source venv/bin/activate
+```
+or 
+```
+$ . venv/bin/activate
 ```
 
 Deactivate virtual environment:
@@ -48,7 +54,7 @@ $ deactivate
 ```
 
 
-Tips 2: Install pip (For virtual environment):
+**2. Install pip (For virtual environment):**
 
 ```
 $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # Download installation script.
@@ -57,7 +63,7 @@ $ sudo python get-pip.py    # Run script.
 ```
 
 
-Tips 3: Install Python Prerequisite Packages: 
+**3. Install Python Prerequisite Packages:** 
 
 ```
 $ pip install flask
