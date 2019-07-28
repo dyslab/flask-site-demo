@@ -22,20 +22,22 @@
             </ul>
         </div>
         <div class="form-row">
-            <div class="col-6">
-                <select id="taglist" class="custom-select">
-                    <option value="" selected>Select Tag</option>
-                    {% for tagitem in tagsList %}
-                        <option class="custom-option-tag" value="{{ tagitem }}">{{ tagitem }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-2">
-                <button id="addtag" type="button" class="btn btn-info custom-tag-add"><strong>&plus;</strong></button>
-            </div>
-            <div class="col-4">
-                <button id="mt-tags" type="button" class="btn btn-info">Manage Tags</button>
-            </div>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <select id="taglist" class="custom-select">
+                        <option value="" selected>Select Tag</option>
+                        {% for tagitem in tagsList %}
+                            <option class="custom-option-tag" value="{{ tagitem }}">{{ tagitem }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li class="list-inline-item">
+                    <button id="addtag" type="button" class="btn btn-info custom-tag-add" title="Add Tag"><strong>&plus;</strong></button>
+                </li>
+                <li class="list-inline-item">
+                    <button id="mt-tags" type="button" class="btn btn-info" title="Tags Management">📝</button>
+                </li>
+            </ul>
         </div>
         <div id="tagsresponse" class="mb-4"></div>
     </div>
@@ -54,8 +56,7 @@
                     <div class="form-row mb-1">
                         <div class="col"><strong>Tag List:</strong></div>
                     </div>
-                    <div class="custom-mt-tag-container">
-                    </div>
+                    <div class="custom-mt-tag-container"></div>
                     <div class="form-row">
                         <div class="col-11">
                             <input type="text" id="mt-addtag-text" class="form-control" placeholder="Tag Name" value="">

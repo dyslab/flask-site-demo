@@ -68,7 +68,7 @@ $(document).ready(function() {
 
     // Manage Tags: Add tag
     $("#mt-addtag").click(function() {
-        $("#mt-addtag-text").val(String.trim($("#mt-addtag-text").val()));
+        $("#mt-addtag-text").val($("#mt-addtag-text").val().trim());
         if($("#mt-addtag-text").val() !== "") {
             if(!isTagExists("div.custom-mt-tag-name", "text", $("#mt-addtag-text").val())) {
                 inserthtml = "<div class=\"form-row custom-mt-tag-row mt-1 mb-1\">" +
