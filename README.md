@@ -17,15 +17,16 @@ Then, ckeck out http://127.0.0.1:5000/ in browser.
 
 ### Development & Tested OS information:
 
-- OS: Ubuntu 18.10 / 19.04
+- OS: Ubuntu 18.10 / 19.04 / 19.10
 
 - Coding tool: Visual Studio Code
 
-- Python version (virtual environment): 3.6.7 / 3.7.3
+- Python version (virtual environment): 3.6.7 or above.
 
 
 
 ***
+
 
 
 ### Tips before first running
@@ -74,6 +75,23 @@ $ pip install pyexcel_xlsx
 $ pip install bumpversion       // Optional
 ```
 
+
 Note: 
 
-*bumpversion* used for development, The CLI 'bumpversion patch' will upgrade patch version and commit automatically.
+- *bumpversion* used for development, The CLI **`$ bumpversion patch`** will upgrade patch version and commit automatically.
+
+- Output package list to a txt file: **`$ pip list -l --format=freeze > installed_packages.txt`**
+
+
+
+***
+
+
+
+Packages list: See [installed_packages.txt](installed_packages.txt)
+
+Document information:
+
+- *Last Modified on 26 October 2019*
+
+- *Created on 28 February 2019*
