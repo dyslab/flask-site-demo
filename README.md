@@ -4,7 +4,7 @@ A learning demostration site for Python Flask framework.
 
 Running Website:
 
-```
+```bash
 $ . venv/bin/activate
 $ ./webstart
 ```
@@ -34,30 +34,30 @@ Then, ckeck out http://127.0.0.1:5000/ in browser.
 
 **1. Install Python virtual environment:**
 
-```
+```bash
 $ python3 -m venv venv
 ```
 
 Activate virtual environment:
 
-```
+```bash
 $ source venv/bin/activate
 ```
 or 
-```
+```bash
 $ . venv/bin/activate
 ```
 
 Deactivate virtual environment:
 
-```
+```bash
 $ deactivate
 ```
 
 
 **2. Install pip (For virtual environment):**
 
-```
+```bash
 $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # Download installation script.
 $ sudo python get-pip.py    # Run script.
 
@@ -66,21 +66,29 @@ $ sudo python get-pip.py    # Run script.
 
 **3. Install Python Prerequisite Packages:** 
 
-```
+```bash
 $ pip install flask
 $ pip install sqlalchemy
 $ pip install flask_uploads
 $ pip install markdown
 $ pip install pyexcel_xlsx
-$ pip install bumpversion       // Optional
+$ pip install bumpversion       # Optional
 ```
 
 
 Note: 
 
-- *bumpversion* used for development, The CLI **`$ bumpversion patch`** will upgrade patch version and commit automatically.
+- *bumpversion* used for development, Run the CLI below will upgrade patch version and commit automatically.
 
-- Output package list to a txt file: **`$ pip list -l --format=freeze > installed_packages.txt`**
+    ```bash
+    $ bumpversion patch
+    ```
+
+- Output package list to a txt file by the CLI below.
+
+    ```bash
+    $ pip list --format=freeze > pip_list.txt
+    ```
 
 
 
@@ -88,10 +96,10 @@ Note:
 
 
 
-Packages list: See [installed_packages.txt](installed_packages.txt)
+- Packages list: See [pip_list.txt](pip_list.txt) *(freeze format)*
 
-Document information:
+- Document information:
 
-- *Last Modified on 26 October 2019*
+    - *Last Modified on 12 November 2019*
 
-- *Created on 28 February 2019*
+    - *Created on 28 February 2019*
