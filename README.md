@@ -81,10 +81,6 @@ Note:
     $ bumpversion patch
     ```
 
-
-***
-
-
 - All Packages List: See [requirements.txt](requirements.txt)
 
     Then, you were able to install the prerequisite packages by CLI `pip install -U -r requirements.txt` in your virtual environment. (BTW: Exporting requirements.txt by CLI `pip freeze > requirements.txt`)
