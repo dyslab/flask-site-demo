@@ -10,10 +10,8 @@ lml==0.0.9
 Markdown==3.1.1
 MarkupSafe==1.1.1
 openpyxl==2.5.14
-pip==19.3.1
 pkg-resources==0.0.0
 pyexcel-io==0.5.20
 pyexcel-xlsx==0.5.7
-setuptools==41.6.0
 SQLAlchemy==1.3.11
 Werkzeug==0.16.0

@@ -14,7 +14,6 @@ $ ./webstart
 Then, ckeck out http://127.0.0.1:5000/ in browser.
 
 
-
 ### Development & Tested OS information:
 
 - OS: Ubuntu 18.10 / 19.04 / 19.10
@@ -24,9 +23,7 @@ Then, ckeck out http://127.0.0.1:5000/ in browser.
 - Python version (virtual environment): 3.6.7 or above.
 
 
-
 ***
-
 
 
 ### Tips before first running
@@ -84,22 +81,16 @@ Note:
     $ bumpversion patch
     ```
 
-- Output package list to a txt file by the CLI below.
-
-    ```bash
-    $ pip list --format=freeze > pip_list.txt
-    ```
-
-
 
 ***
 
 
+- All Packages List: See [requirements.txt](requirements.txt)
 
-- Packages list: See [pip_list.txt](pip_list.txt) *(freeze format)*
+    Then, you were able to install the prerequisite packages by CLI `pip install -U -r requirements.txt` in your virtual environment. (BTW: Exporting requirements.txt by CLI `pip freeze > requirements.txt`)
 
 - Document information:
 
-    - *Last Modified on 12 November 2019*
+    - *Last Modified on 27 November 2019*
 
     - *Created on 28 February 2019*
