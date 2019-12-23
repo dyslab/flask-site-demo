@@ -1,5 +1,7 @@
 ### App name: Flask Site Demo &copy;
 
+[![Github Release](https://img.shields.io/github/release/dyslab/flask-site-demo.svg)](https://github.com/dyslab/flask-site-demo/releases)
+
 A learning demostration site for Python Flask framework.
 
 Running Website:
