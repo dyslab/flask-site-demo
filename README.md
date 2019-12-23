@@ -1,6 +1,7 @@
 ### App name: Flask Site Demo &copy;
 
-[![Github Release](https://img.shields.io/github/release/dyslab/flask-site-demo.svg)](https://github.com/dyslab/flask-site-demo/releases)
+[![Github License](https://img.shields.io/github/license/dyslab/flask-site-demo)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Github Tag](https://img.shields.io/github/v/tag/dyslab/flask-site-demo)](https://github.com/dyslab/flask-site-demo/tree/v0.2.0)
+
 
 A learning demostration site for Python Flask framework.
 
