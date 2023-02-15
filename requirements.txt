@@ -14,4 +14,4 @@ pkg-resources==0.0.0
 pyexcel-io==0.5.20
 pyexcel-xlsx==0.5.7
 SQLAlchemy==1.3.11
-Werkzeug==0.16.0
+Werkzeug==2.2.3
