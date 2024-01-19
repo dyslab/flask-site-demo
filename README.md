@@ -64,12 +64,6 @@ source venv/bin/activate
 
 ### Additional notes 
 
-- *bumpversion* always uses for development, run the command line below in bash terminal will upgrade patch version and commit automatically.
-
-```bash
-bumpversion patch
-```
-
 - All reqired packages list see [requirements.txt](requirements.txt)
 
 - Export all required packages list with restrict version to requirements.txt by the command line below.
