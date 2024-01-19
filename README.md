@@ -1,18 +1,6 @@
-## App name: Flask Site Demo
+## flask-site-demo: A website demo powered by Python Flask framework.
 
-[![Github License](./assets/powered-by-Flask-v2.svg)](https://flask.palletsprojects.com/) [![Github License](./assets/license-MIT.svg)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Github Tag](https://img.shields.io/github/v/tag/dyslab/flask-site-demo)](https://github.com/dyslab/flask-site-demo/tree/v0.2.0)
-
-
-A website demo powered by Python Flask framework.
-
-Running demo
-
-```bash
-source venv/bin/activate
-./webstart  # Note: type `chmod a+x ./webstart` to ignite the shell file to be executable if it does'n work
-
-# Then, ckeck out link: http://127.0.0.1:5000/ on browser.
-```
+[![Powered by Flask v2](./assets/powered-by-Flask-v2.svg)](https://flask.palletsprojects.com/) [![Github license](./assets/license-MIT.svg)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Demo version](./assets/demo-version.svg)](https://github.com/dyslab/flask-site-demo)
 
 ### OS and tools information
 
@@ -63,6 +51,15 @@ Install required packages
 
 ```bash
 pip install -r requirements.txt
+```
+
+Start web server
+
+```bash
+source venv/bin/activate
+./webstart  # Note: type `chmod a+x ./webstart` to ignite the shell file to be executable if it does'n work
+
+# Then, ckeck out link: http://127.0.0.1:5000/ on browser.
 ```
 
 ### Additional notes 
