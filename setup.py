@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="fsdemo-dyslab",
-    version="0.2.6",
+    version="0.2.7",
     author="DYSLAB",
     author_email="vincent_to@qq.com",
     description="A demo project about Python/Flask website building",
