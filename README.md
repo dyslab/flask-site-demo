@@ -1,95 +1,88 @@
-### App name: Flask Site Demo &copy;
+## App name: Flask Site Demo
 
-[![Github License](https://img.shields.io/github/license/dyslab/flask-site-demo)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Github Tag](https://img.shields.io/github/v/tag/dyslab/flask-site-demo)](https://github.com/dyslab/flask-site-demo/tree/v0.2.0)
+[![Github License](./assets/powered-by-Flask-v2.svg)](https://flask.palletsprojects.com/) [![Github License](./assets/license-MIT.svg)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Github Tag](https://img.shields.io/github/v/tag/dyslab/flask-site-demo)](https://github.com/dyslab/flask-site-demo/tree/v0.2.0)
 
 
-A learning demostration site for Python Flask framework.
+A website demo powered by Python Flask framework.
 
-Running Website:
+Running demo
 
 ```bash
-$ . venv/bin/activate
-$ ./webstart
+source venv/bin/activate
+./webstart  # Note: type `chmod a+x ./webstart` to ignite the shell file to be executable if it does'n work
+
+# Then, ckeck out link: http://127.0.0.1:5000/ on browser.
 ```
 
-(Note: Use `chmod a+x ./webstart` to ignite the shell file to be executable.)
+### OS and tools information
 
-Then, ckeck out http://127.0.0.1:5000/ in browser.
+- OS: Ubuntu v18.10 / v19.04 / v19.10, Deepin v20.9
 
+- Python version (virtual environment): v3.6.7 or above.
 
-### Development & Tested OS information:
+- Framework: Flask v2.3 / Werkzeug v0.16
 
-- OS: Ubuntu 18.10 / 19.04 / 19.10
+- SQL toolkit: SQLAlchemy v1.3
 
 - Coding tool: Visual Studio Code
 
-- Python version (virtual environment): 3.6.7 or above.
-
-
 ***
 
+### Tips before first try
 
-### Tips before first running
-
-
-**1. Install Python virtual environment:**
+Install Python virtual environment (venv mode)
 
 ```bash
-$ python3 -m venv venv
+python3 -m venv venv
 ```
 
-Activate virtual environment:
+Activate venv mode
 
 ```bash
-$ source venv/bin/activate
-```
-or 
-```bash
-$ . venv/bin/activate
+source venv/bin/activate
+# or 
+. venv/bin/activate
 ```
 
-Deactivate virtual environment:
+Deactivate venv mode
 
 ```bash
-$ deactivate
+deactivate
 ```
 
-
-**2. Install pip (For virtual environment):**
+Update or install pip (in venv mode)
 
 ```bash
-$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # Download installation script.
-$ sudo python get-pip.py    # Run script.
-
+pip install pip -U
+# or curl it by yourself
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # Download installation script.
+sudo python get-pip.py    # Run script.
 ```
 
-
-**3. Install Python Prerequisite Packages:** 
+Install required packages 
 
 ```bash
-$ pip install flask
-$ pip install sqlalchemy
-$ pip install flask_uploads
-$ pip install markdown
-$ pip install pyexcel_xlsx
-$ pip install bumpversion       # Optional
+pip install -r requirements.txt
 ```
 
+### Additional notes 
 
-Note: 
+- *bumpversion* always uses for development, run the command line below in bash terminal will upgrade patch version and commit automatically.
 
-- *bumpversion* used for development, Run the CLI below will upgrade patch version and commit automatically.
+```bash
+bumpversion patch
+```
 
-    ```bash
-    $ bumpversion patch
-    ```
+- All reqired packages list see [requirements.txt](requirements.txt)
 
-- All Packages List: See [requirements.txt](requirements.txt)
+- Export all required packages list with restrict version to requirements.txt by the command line below.
 
-    Then, you were able to install the prerequisite packages by CLI `pip install -U -r requirements.txt` in your virtual environment. (BTW: Exporting requirements.txt by CLI `pip freeze > requirements.txt`)
+```bash
+pip freeze > requirements.txt
+```
 
-- Document information:
+---
 
-    - *Last Modified on 27 November 2019*
+*· Last Modified on 27 November 2019*
 
-    - *Created on 28 February 2019*
+*· Created on 28 February 2019*
