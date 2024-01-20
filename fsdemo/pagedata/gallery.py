@@ -6,7 +6,7 @@ from sqlalchemy import extract
 from fsdemo.pagedata.base import PageData
 from fsdemo.models import GTags, Gallery
 from fsdemo.db import db_session
-from fsdemo.basefunc import GetGalleryResponseList, GetYearList
+from fsdemo.basefunc import GetGalleryResponseList, GetYearListFromDatatimeList
 
 
 # Database Access Middleware: For model 'GTags'.
@@ -80,15 +80,10 @@ class GalleryMiddleware(object):
     def load_years(self):
         return_list = []
         try:
-            gitem = Gallery.query.order_by(
+            gitems = Gallery.query.order_by(
                 Gallery.addtime.asc()
-            ).first()
-            sdate = gitem.addtime
-            gitem = Gallery.query.order_by(
-                Gallery.addtime.asc()
-            ).first()
-            edate = gitem.addtime
-            return_list = GetYearList(sdate, edate)
+            )
+            return_list = GetYearListFromDatatimeList([gitem.addtime for gitem in gitems])
         except Exception:
             pass
         return return_list

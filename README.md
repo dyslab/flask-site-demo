@@ -1,6 +1,6 @@
 ## flask-site-demo: A website demo powered by Python Flask framework.
 
-[![Powered by Flask v2](./assets/powered-by-Flask-v2.svg)](https://flask.palletsprojects.com/) [![Github license](./assets/license-MIT.svg)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Demo version](./assets/demo-version.svg)](https://github.com/dyslab/flask-site-demo)
+[![Powered by Flask v2](./assets/powered-by-Flask-v1.svg)](https://flask.palletsprojects.com/) [![Github license](./assets/license-MIT.svg)](https://github.com/dyslab/flask-site-demo/blob/master/LICENSE) [![Demo version](./assets/demo-version.svg)](https://github.com/dyslab/flask-site-demo)
 
 ### OS and tools information
 
@@ -8,7 +8,7 @@
 
 - Python version (virtual environment): v3.6.7 or above.
 
-- Framework: Flask v2.3 / Werkzeug v0.16
+- Framework: Flask v1.1 / Werkzeug v0.16
 
 - SQL toolkit: SQLAlchemy v1.3
 

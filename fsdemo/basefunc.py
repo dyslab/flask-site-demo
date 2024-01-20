@@ -123,7 +123,15 @@ def GetGalleryResponseList(items=[]):
 
 
 # Used by gallery.load
-def GetYearList(startdate=0, enddate=0):
-    startyear = startdate.year
-    endyear = enddate.year
-    return [y for y in range(startyear, endyear + 1)]
+def GetYearListFromDatatimeList(dts=[]):
+    retlist = []
+    try:
+        for dt in dts:
+            try: 
+                retlist.index(dt.year)
+            except ValueError:
+                retlist.insert(0, dt.year)
+                pass
+    except Exception:
+        pass
+    return retlist

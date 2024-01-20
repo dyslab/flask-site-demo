@@ -2,10 +2,12 @@
 
 **Author: Vincent To (dyslab)**
 
-**QQ: 120843991**
+**Email: [vincent_to@139.com](mailto:vincent_to@139.com "Mail me...")**
 
-**Email: [120843991@qq.com](mailto:120843991@qq.com "Mail me...")**
+**Github repo.: [flask-site-demo](https://github.com/dyslab/flask-site-demo "Project repository")**
 
-**Project start date: Feb 27, 2019**
+**Stackshare: [https://stackshare.io/dyslab](https://stackshare.io/dyslab "My stack")**
 
-**Github: [https://github.com/dyslab/flask-site-demo](https://github.com/dyslab/flask-site-demo "Project repository")**
+---
+
+*This project start date: Feb 27, 2019*
