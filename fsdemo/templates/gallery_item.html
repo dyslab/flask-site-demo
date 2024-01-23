@@ -18,6 +18,7 @@
                                 <input type="file" class="custom-file-input" name="photo" id="photo" required oninvalid="setCustomValidity('Choose a file at first.')" oninput="setCustomValidity('')">
                                 <label class="custom-file-label" for="photo" data-browse="Choose Image File"></label>
                             </div>
+                            <div class="custom-upload-image-preview-box mb-4" name="preview" id="preview"></div>
                         {% endif %}
                         {{ widget_tags.render_tags_part(pageData.objectTags, pageData.tagsList, pageData.manageTagsLink) }}
                         <div class="mb-4">

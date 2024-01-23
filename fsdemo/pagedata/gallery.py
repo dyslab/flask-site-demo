@@ -84,8 +84,9 @@ class GalleryMiddleware(object):
                 Gallery.addtime.asc()
             )
             return_list = GetYearListFromDatatimeList([gitem.addtime for gitem in gitems])
+            return_list.sort(reverse=True)  # Sort the tag years on descending order
         except Exception:
-            pass
+            pass        
         return return_list
 
     def load_all(self, page=1, off=0, per_page=12):

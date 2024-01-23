@@ -46,9 +46,22 @@ $(document).ready(function() {
     // Validate form file when its content changed.
     $("#photo").change(function () {
         var filename = $(this).val();
+        $("#preview").empty();
         if(!isValidFileExtension(filename)) {
             alert('Select IMAGE file please.');
             resetFormFile($("#photo"), $(".custom-file-label"));
+        }
+        else {
+            const img = document.createElement("img");
+            img.file = $(this);
+            img.classList.add('custom-upload-image-preview'); // CSS style comes from "/static/css/style.css"
+            $("#preview").append(img);
+            // preview.appendChild(img); // Assuming that "preview" is the div output where the content will be displayed.
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(document.getElementById('photo').files[0]);
         }
     });
 
