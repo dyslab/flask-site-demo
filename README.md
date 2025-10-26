@@ -4,41 +4,43 @@
 
 ### OS and tools information
 
-- OS: Ubuntu v18.10 / v19.04 / v19.10, Deepin v20.9
+- OS: Ubuntu v18. ~ v19 / Deepin v20 ~ v23 / Windows 11
 
 - Python version (virtual environment): v3.6.7 or above.
 
-- Framework: Flask v1.1 / Werkzeug v0.16
+- Framework: Flask v1.1.1 ~ v3.1.2
 
-- SQL toolkit: SQLAlchemy v1.3
+- SQL toolkit: SQLAlchemy v1.3.11
 
-- Coding tool: Visual Studio Code
+- IDE tool: Visual Studio Code
 
 ***
 
 ### Tips before first try
 
-Install Python virtual environment (venv mode)
+1. Install Python virtual environment (venv mode)
 
 ```bash
 python3 -m venv venv
 ```
 
-Activate venv mode
+2. Activate venv mode
 
 ```bash
 source venv/bin/activate
 # or 
 . venv/bin/activate
+# or (on Windows)
+venv\Scripts\activate
 ```
 
-Deactivate venv mode
+3. Deactivate venv mode
 
 ```bash
 deactivate
 ```
 
-Update or install pip (in venv mode)
+4. Update or install latest pip (in venv mode)
 
 ```bash
 pip install pip -U
@@ -47,17 +49,26 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # Download installatio
 sudo python get-pip.py    # Run script.
 ```
 
-Install required packages 
+5. Install required packages 
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Start web server
+6. Start web server
 
 ```bash
+# Acticate Python virtual mode
 source venv/bin/activate
-./webstart  # Note: type `chmod a+x ./webstart` to ignite the shell file to be executable if it does'n work
+
+# Run web server on any platform (development mode)
+flask --app 'fsdemo' run
+# NOTE: The argument '--app' is a new feature in Flask v3
+
+# Or run the below script on Linux
+# Classical approach to running web service in Flask v1
+./webstart  
+# Note: type command line `chmod a+x ./webstart` to make the script executable if it does'n work
 
 # Then, ckeck out link: http://127.0.0.1:5000/ on browser.
 ```
@@ -74,6 +85,6 @@ pip freeze > requirements.txt
 
 ---
 
-*· Last Modified on 27 November 2019*
+- *Last Modified on 27 October 2025*
 
-*· Created on 28 February 2019*
+- *Created on 28 February 2019*

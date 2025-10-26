@@ -68,12 +68,21 @@ class ExcelJsonPageData(PageData, TestFields):
 
     def readJSON2List(self, jsonfilename):
         returnList = []
-        with open(
-            os.path.join(self.__BASE_PATH__, jsonfilename),
-            newline=''
-        ) as jsonfile:
-            returnList = json.load(jsonfile)
-        # print(returnList) # console open for test
+        file_path = os.path.join(self.__BASE_PATH__, jsonfilename)
+        if not os.path.exists(file_path):
+            # 可以记录错误日志或设置默认返回值
+            return returnList
+        
+        try:
+            with open(file_path, newline='', encoding='utf-8') as jsonfile:
+                returnList = json.load(jsonfile)
+        except json.JSONDecodeError:
+            # 处理JSON格式错误
+            pass
+        except UnicodeDecodeError:
+            # 处理编码错误
+            pass
+        
         return returnList
 
 

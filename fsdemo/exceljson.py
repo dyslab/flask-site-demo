@@ -11,12 +11,8 @@ exceljson_page = Blueprint(
 
 @exceljson_page.route('/', methods=['GET'])
 def exceljson_index():
-    if request.method == 'GET':
-        try:
-            input_filename = request.args.get('file', 'example.csv')
-        except KeyError:
-            input_filename = 'example.csv'
-            pass
+    # 简化代码，直接使用get方法的默认值参数
+    input_filename = request.args.get('file', 'example.csv')
     return render_template(
         'exceljson_index.html',
         pageData=ExcelJsonPageData(input_filename)

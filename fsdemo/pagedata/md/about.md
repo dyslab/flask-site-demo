@@ -17,15 +17,15 @@ Deactivate virtual environment command lines:
 
 **Development OS information:**
 
-- Dev OS: Ubuntu v18.10 ~ Deepin v20.9
+- Dev OS: Ubuntu v18.10 ~ Deepin v20.9 / Windows 11
 
-- Python version: v3.6.7 ~ v3.7.3
+- Python version: v3.6.7 ~ v3.14.0
 
-- Flask version: v1.1.1
+- Flask version: v3.1.2
 
 - SQL toolkit: SQLAlchemy v1.3.11
 
-- Coding tool: Visual Studio Code
+- IDE tools: Visual Studio Code
 
 **Installed packages list:**
 
